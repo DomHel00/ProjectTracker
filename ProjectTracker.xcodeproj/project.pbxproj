@@ -114,7 +114,6 @@
 		E9E24C712BC2CBD400EC78C5 = {
 			isa = PBXGroup;
 			children = (
-				E92E02442BD5049A005D7548 /* CoreData */,
 				E9E24C7C2BC2CBD400EC78C5 /* ProjectTracker */,
 				E9E24C7B2BC2CBD400EC78C5 /* Products */,
 			);
@@ -131,6 +130,7 @@
 		E9E24C7C2BC2CBD400EC78C5 /* ProjectTracker */ = {
 			isa = PBXGroup;
 			children = (
+				E92E02442BD5049A005D7548 /* CoreData */,
 				E9442B7D2BC52C3F00F302E5 /* Delegates */,
 				E9442B882BC5300500F302E5 /* Coordinator */,
 				E95E394A2BD4F839007B6D21 /* Models */,
