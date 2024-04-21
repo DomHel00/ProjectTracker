@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E92E02422BD50410005D7548 /* Project+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92E02402BD50410005D7548 /* Project+CoreDataClass.swift */; };
+		E92E02432BD50410005D7548 /* Project+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92E02412BD50410005D7548 /* Project+CoreDataProperties.swift */; };
 		E9442B802BC52C9E00F302E5 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9442B7F2BC52C9E00F302E5 /* MainCoordinator.swift */; };
 		E9442B822BC52E9900F302E5 /* AddProjectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9442B812BC52E9900F302E5 /* AddProjectViewController.swift */; };
 		E9442B842BC52EAE00F302E5 /* EditProjectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9442B832BC52EAE00F302E5 /* EditProjectViewController.swift */; };
@@ -23,6 +25,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E92E02402BD50410005D7548 /* Project+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+CoreDataClass.swift"; sourceTree = "<group>"; };
+		E92E02412BD50410005D7548 /* Project+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		E9442B7F2BC52C9E00F302E5 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		E9442B812BC52E9900F302E5 /* AddProjectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProjectViewController.swift; sourceTree = "<group>"; };
 		E9442B832BC52EAE00F302E5 /* EditProjectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProjectViewController.swift; sourceTree = "<group>"; };
@@ -51,6 +55,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E92E02442BD5049A005D7548 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				E92E02402BD50410005D7548 /* Project+CoreDataClass.swift */,
+				E92E02412BD50410005D7548 /* Project+CoreDataProperties.swift */,
+				E9E24C862BC2CBD400EC78C5 /* ProjectTracker.xcdatamodeld */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
 		E9442B7D2BC52C3F00F302E5 /* Delegates */ = {
 			isa = PBXGroup;
 			children = (
@@ -100,6 +114,7 @@
 		E9E24C712BC2CBD400EC78C5 = {
 			isa = PBXGroup;
 			children = (
+				E92E02442BD5049A005D7548 /* CoreData */,
 				E9E24C7C2BC2CBD400EC78C5 /* ProjectTracker */,
 				E9E24C7B2BC2CBD400EC78C5 /* Products */,
 			);
@@ -122,7 +137,6 @@
 				E9442B872BC52FCD00F302E5 /* ViewControllers */,
 				E9E24C892BC2CBD600EC78C5 /* Assets.xcassets */,
 				E9E24C8E2BC2CBD600EC78C5 /* Info.plist */,
-				E9E24C862BC2CBD400EC78C5 /* ProjectTracker.xcdatamodeld */,
 				E9442B7E2BC52C5D00F302E5 /* Storyboards */,
 			);
 			path = ProjectTracker;
@@ -209,6 +223,8 @@
 				E9E24C802BC2CBD400EC78C5 /* SceneDelegate.swift in Sources */,
 				E9442B862BC52EC600F302E5 /* ProjectDetailViewController.swift in Sources */,
 				E95E39492BD4F7C2007B6D21 /* ProjectModel.swift in Sources */,
+				E92E02422BD50410005D7548 /* Project+CoreDataClass.swift in Sources */,
+				E92E02432BD50410005D7548 /* Project+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
