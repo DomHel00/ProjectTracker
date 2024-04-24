@@ -15,7 +15,7 @@ struct ProjectModel {
     var creationDate: Date?
     var icon: Data?
     
-    init(projectTitle: String? = nil, projectDescription: String? = nil, projectPriority: String? = nil, projectProgress: String? = nil, creationDate: Date? = nil, completionDate: Date? = nil, icon: Data? = nil) {
+    init(projectTitle: String? = nil, projectDescription: String? = nil, projectPriority: String? = nil, projectProgress: String? = nil, creationDate: Date? = nil, icon: Data? = nil) {
         self.projectTitle = projectTitle
         self.projectDescription = projectDescription
         self.projectPriority = projectPriority
