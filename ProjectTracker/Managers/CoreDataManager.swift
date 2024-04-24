@@ -41,7 +41,6 @@ final class CoreDataManager {
         project.projectPriority = object.projectPriority
         project.projectProgress = object.projectProgress
         project.creationDate = object.creationDate
-        project.completionDate = object.completionDate
         project.icon = object.icon
         appDelegate.saveContext()
     }

@@ -17,7 +17,6 @@ extension Project {
     }
 
     @NSManaged public var icon: Data?
-    @NSManaged public var completionDate: Date?
     @NSManaged public var creationDate: Date?
     @NSManaged public var projectProgress: String?
     @NSManaged public var projectPriority: String?

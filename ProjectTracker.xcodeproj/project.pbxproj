@@ -18,6 +18,7 @@
 		E95E39452BD4F633007B6D21 /* ProjectPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95E39442BD4F633007B6D21 /* ProjectPriority.swift */; };
 		E95E39472BD4F6D4007B6D21 /* ProjectProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95E39462BD4F6D4007B6D21 /* ProjectProgress.swift */; };
 		E95E39492BD4F7C2007B6D21 /* ProjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95E39482BD4F7C2007B6D21 /* ProjectModel.swift */; };
+		E968C6A22BD79B880081DF6E /* AddEditFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E968C6A12BD79B880081DF6E /* AddEditFormView.swift */; };
 		E9E24C7E2BC2CBD400EC78C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E24C7D2BC2CBD400EC78C5 /* AppDelegate.swift */; };
 		E9E24C802BC2CBD400EC78C5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E24C7F2BC2CBD400EC78C5 /* SceneDelegate.swift */; };
 		E9E24C822BC2CBD400EC78C5 /* ProjectsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E24C812BC2CBD400EC78C5 /* ProjectsViewController.swift */; };
@@ -38,6 +39,7 @@
 		E95E39442BD4F633007B6D21 /* ProjectPriority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectPriority.swift; sourceTree = "<group>"; };
 		E95E39462BD4F6D4007B6D21 /* ProjectProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectProgress.swift; sourceTree = "<group>"; };
 		E95E39482BD4F7C2007B6D21 /* ProjectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectModel.swift; sourceTree = "<group>"; };
+		E968C6A12BD79B880081DF6E /* AddEditFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditFormView.swift; sourceTree = "<group>"; };
 		E9E24C7A2BC2CBD400EC78C5 /* ProjectTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9E24C7D2BC2CBD400EC78C5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E9E24C7F2BC2CBD400EC78C5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				E92E02482BD51068005D7548 /* NoProjectsTableViewDataVIew.swift */,
+				E968C6A12BD79B880081DF6E /* AddEditFormView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -248,6 +251,7 @@
 				E92E02422BD50410005D7548 /* Project+CoreDataClass.swift in Sources */,
 				E92E02462BD50608005D7548 /* CoreDataManager.swift in Sources */,
 				E92E02492BD51068005D7548 /* NoProjectsTableViewDataVIew.swift in Sources */,
+				E968C6A22BD79B880081DF6E /* AddEditFormView.swift in Sources */,
 				E92E02432BD50410005D7548 /* Project+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
