@@ -50,4 +50,8 @@ final class MainCoordinator: Coordinator {
         vc.coordinator = self
         self.navigationController.pushViewController(vc, animated: true)
     }
+    
+    public func popToProjectsViewController() {
+        self.navigationController.popToRootViewController(animated: true)
+    }
 }
