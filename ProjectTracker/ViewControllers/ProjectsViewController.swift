@@ -46,13 +46,25 @@ final class ProjectsViewController: UIViewController {
             projectsTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             projectsTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             projectsTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            projectsTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            
-            noProjectsTableViewDataVIew.heightAnchor.constraint(equalTo: projectsTableView.widthAnchor, multiplier: 0.4),
-            noProjectsTableViewDataVIew.widthAnchor.constraint(equalTo: projectsTableView.widthAnchor, multiplier: 0.4),
-            noProjectsTableViewDataVIew.centerXAnchor.constraint(equalTo: projectsTableView.centerXAnchor),
-            noProjectsTableViewDataVIew.centerYAnchor.constraint(equalTo: projectsTableView.centerYAnchor)
+            projectsTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+        
+        if database.fetchController.fetchedObjects?.count == 0 {
+            NSLayoutConstraint.activate([
+                noProjectsTableViewDataVIew.heightAnchor.constraint(equalTo: projectsTableView.widthAnchor, multiplier: 0.4),
+                noProjectsTableViewDataVIew.widthAnchor.constraint(equalTo: projectsTableView.widthAnchor, multiplier: 0.4),
+                noProjectsTableViewDataVIew.centerXAnchor.constraint(equalTo: projectsTableView.centerXAnchor),
+                noProjectsTableViewDataVIew.centerYAnchor.constraint(equalTo: projectsTableView.centerYAnchor)
+            ])
+        }
+        else {
+            NSLayoutConstraint.deactivate([
+                noProjectsTableViewDataVIew.heightAnchor.constraint(equalTo: projectsTableView.widthAnchor, multiplier: 0.4),
+                noProjectsTableViewDataVIew.widthAnchor.constraint(equalTo: projectsTableView.widthAnchor, multiplier: 0.4),
+                noProjectsTableViewDataVIew.centerXAnchor.constraint(equalTo: projectsTableView.centerXAnchor),
+                noProjectsTableViewDataVIew.centerYAnchor.constraint(equalTo: projectsTableView.centerYAnchor)
+            ])
+        }
     }
     
     override func viewDidLoad() {
