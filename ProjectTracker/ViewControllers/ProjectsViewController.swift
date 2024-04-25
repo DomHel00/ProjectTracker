@@ -162,4 +162,18 @@ extension ProjectsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let selectedProject = database.fetchController.object(at: indexPath)
+        
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] action, view, completion in
+            self?.database.deleteObject(selectedProject)
+            completion(true)
+        }
+        
+        let editAction = UIContextualAction(style: .normal, title: "Edit") { [weak self] action, view, completion in
+            completion(true)
+        }
+        return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
+    }
 }
