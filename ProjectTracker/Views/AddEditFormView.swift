@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol AddEditFormViewDelegate: AnyObject {
+    func didTapIconButton()
+}
+    
 final class AddEditFormView: UIView {
+    public weak var delegate: AddEditFormViewDelegate?
+    
     private let projectTitleLabel: UILabel = {
         let projectTitleLabel = UILabel()
         projectTitleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -122,6 +128,7 @@ final class AddEditFormView: UIView {
         addSubview(projectPrioritySegmentedControl)
         addSubview(projectProgressLabel)
         addSubview(projectProgressSegmentedControl)
+        projectIconButton.addTarget(self, action: #selector(showPhotoPciker), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -182,16 +189,73 @@ final class AddEditFormView: UIView {
         ])
     }
     
+    @objc private func showPhotoPciker() {
+        delegate?.didTapIconButton()
+    }
+    
+    public func updateIcon(for image: UIImage) {
+        self.projectIconImageView.image = image
+    }
+    
     public func AddFormUI() {
         projectTitleLabel.text = "Set project title"
         projectTitleTextField.placeholder = "Set project title"
         projectDescriptionLabel.text = "Set project description"
         projectIconLabel.text = "Set project icon"
-        projectIconImageView.image = UIImage(systemName: "bell")
+        projectIconImageView.image = UIImage(named: "icon")
         projectIconButton.setTitle("Set project icon", for: .normal)
         projectPriorityLabel.text = "Set project priority"
         projectPrioritySegmentedControl.selectedSegmentIndex = 0
         projectProgressLabel.text = "Set project progress"
         projectProgressSegmentedControl.selectedSegmentIndex = 0
+    }
+    
+    public func EditFormUI(for project: Project) {
+        projectTitleLabel.text = "Edit project title"
+        projectTitleTextField.placeholder = "Edit project title"
+        projectDescriptionLabel.text = "Edit project description"
+        projectIconLabel.text = "Edit project icon"
+        projectTitleTextField.text = project.projectTitle
+        projectDescriptionTextView.text = project.projectDescription
+        if let savedImage = project.icon {
+            projectIconImageView.image = UIImage(data: savedImage)
+        }
+        else {
+            projectIconImageView.image = UIImage(named: "icon")
+        }
+
+        projectIconButton.setTitle("Edit project icon", for: .normal)
+        projectPriorityLabel.text = "Edit project priority"
+        
+        if let savedPriority = project.projectPriority {
+            let index = ProjectPriority.allTitles.firstIndex(of: savedPriority) ?? 0
+            projectPrioritySegmentedControl.selectedSegmentIndex = index        }
+        else {
+            projectPrioritySegmentedControl.selectedSegmentIndex = 0
+        }
+                
+        projectProgressLabel.text = "Edit project progress"
+        
+        if let savedProgress = project.projectProgress {
+            let index = ProjectProgress.allTitles.firstIndex(of: savedProgress) ?? 0
+            projectProgressSegmentedControl.selectedSegmentIndex = index
+        }
+        else {
+            projectProgressSegmentedControl.selectedSegmentIndex = 0
+        }   
+    }
+    
+    public func createProject() -> ProjectModel? {
+        guard let titleText = projectTitleTextField.text else {
+            return nil
+        }
+        
+        let trimmedTitleText = titleText.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if trimmedTitleText.isEmpty || trimmedTitleText == "" {
+            return nil
+        }
+        
+        return ProjectModel(projectTitle: trimmedTitleText, projectDescription: projectDescriptionTextView.text, projectPriority: ProjectPriority.allTitles[projectPrioritySegmentedControl.selectedSegmentIndex], projectProgress: ProjectProgress.allTitles[projectProgressSegmentedControl.selectedSegmentIndex], creationDate: .now, icon: projectIconImageView.image?.pngData())
     }
 }
