@@ -50,7 +50,17 @@ final class CoreDataManager {
         appDelegate.saveContext()
     }
     
-    public func updateObject(oldObject: Project, newObject: Project) {
-        
+    public func updateObject(oldObject: Project, newObject: ProjectModel) {
+        guard let index = fetchController.fetchedObjects?.firstIndex(of: oldObject) else {
+            return
+        }
+        let object = fetchController.fetchedObjects?[index]
+        object?.projectTitle = newObject.projectTitle
+        object?.projectDescription = newObject.projectDescription
+        object?.icon = newObject.icon
+        object?.projectPriority = newObject.projectPriority
+        object?.projectProgress = newObject.projectProgress
+        try? context.save()
+
     }
 }
