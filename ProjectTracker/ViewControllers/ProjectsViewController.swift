@@ -172,6 +172,7 @@ extension ProjectsViewController: UITableViewDataSource, UITableViewDelegate {
         }
         
         let editAction = UIContextualAction(style: .normal, title: "Edit") { [weak self] action, view, completion in
+            self?.coordinator?.pushEditProjectViewController(project: selectedProject)
             completion(true)
         }
         return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
