@@ -64,6 +64,8 @@ final class EditProjectViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .systemBackground
+        
         navigationItem.largeTitleDisplayMode = .never
         title = "Edit project"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", image: nil, target: self, action: #selector(didTapSaveButton))

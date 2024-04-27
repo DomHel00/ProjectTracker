@@ -55,6 +55,8 @@ final class AddProjectViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .systemBackground
+        
         navigationItem.largeTitleDisplayMode = .never
         title = "Add new project"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create", image: nil, target: self, action: #selector(didTapCreateButton))

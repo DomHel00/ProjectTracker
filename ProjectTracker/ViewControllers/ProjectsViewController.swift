@@ -69,6 +69,8 @@ final class ProjectsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .systemBackground
+
         navigationItem.largeTitleDisplayMode = .always
         title = "My projects"
         
