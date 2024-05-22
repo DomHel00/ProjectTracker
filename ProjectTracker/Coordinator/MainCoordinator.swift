@@ -39,8 +39,8 @@ final class MainCoordinator: Coordinator {
         self.navigationController.pushViewController(vc, animated: true)
     }
     
-    public func pushProjectDetailViewController() {
-            let vc = ProjectDetailViewController()
+    public func pushProjectDetailViewController(project: Project) {
+            let vc = ProjectDetailViewController(project: project)
             vc.coordinator = self
             self.navigationController.pushViewController(vc, animated: true)
     }
