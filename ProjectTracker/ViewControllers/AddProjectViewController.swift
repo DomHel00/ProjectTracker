@@ -43,13 +43,13 @@ final class AddProjectViewController: UIViewController {
             contentScrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             contentScrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             contentScrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            contentScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            
+            contentScrollView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor, constant: -10),
+
             contentFormView.topAnchor.constraint(equalTo: contentScrollView.topAnchor),
             contentFormView.leadingAnchor.constraint(equalTo: contentScrollView.leadingAnchor),
             contentFormView.trailingAnchor.constraint(equalTo: contentScrollView.trailingAnchor),
             contentFormView.bottomAnchor.constraint(equalTo: contentScrollView.bottomAnchor),
-            contentFormView.widthAnchor.constraint(equalTo: contentScrollView.widthAnchor),
+            contentFormView.widthAnchor.constraint(equalTo: contentScrollView.widthAnchor)
         ])
     }
     
