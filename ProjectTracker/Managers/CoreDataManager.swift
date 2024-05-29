@@ -42,6 +42,7 @@ final class CoreDataManager {
         project.projectProgress = object.projectProgress
         project.creationDate = object.creationDate
         project.icon = object.icon
+        project.projectURL = object.projectURL
         appDelegate.saveContext()
     }
     
@@ -60,7 +61,7 @@ final class CoreDataManager {
         object?.icon = newObject.icon
         object?.projectPriority = newObject.projectPriority
         object?.projectProgress = newObject.projectProgress
+        object?.projectURL = newObject.projectURL
         try? context.save()
-
     }
 }
