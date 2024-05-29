@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E92E02422BD50410005D7548 /* Project+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92E02402BD50410005D7548 /* Project+CoreDataClass.swift */; };
-		E92E02432BD50410005D7548 /* Project+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92E02412BD50410005D7548 /* Project+CoreDataProperties.swift */; };
 		E92E02462BD50608005D7548 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92E02452BD50608005D7548 /* CoreDataManager.swift */; };
 		E92E02492BD51068005D7548 /* NoProjectsTableViewDataVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92E02482BD51068005D7548 /* NoProjectsTableViewDataVIew.swift */; };
 		E9442B802BC52C9E00F302E5 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9442B7F2BC52C9E00F302E5 /* MainCoordinator.swift */; };
@@ -20,6 +18,8 @@
 		E95E39492BD4F7C2007B6D21 /* ProjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95E39482BD4F7C2007B6D21 /* ProjectModel.swift */; };
 		E968C6A22BD79B880081DF6E /* AddEditFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E968C6A12BD79B880081DF6E /* AddEditFormView.swift */; };
 		E994253B2BDBAC45002F8A0B /* ProjectTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E994253A2BDBAC45002F8A0B /* ProjectTableViewCell.swift */; };
+		E9A0BF0A2C07145600F0888A /* Project+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A0BF082C07145600F0888A /* Project+CoreDataClass.swift */; };
+		E9A0BF0B2C07145600F0888A /* Project+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A0BF092C07145600F0888A /* Project+CoreDataProperties.swift */; };
 		E9A664132BDCF63D00390A6B /* ProjectDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A664122BDCF63D00390A6B /* ProjectDetailView.swift */; };
 		E9E24C7E2BC2CBD400EC78C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E24C7D2BC2CBD400EC78C5 /* AppDelegate.swift */; };
 		E9E24C802BC2CBD400EC78C5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E24C7F2BC2CBD400EC78C5 /* SceneDelegate.swift */; };
@@ -30,8 +30,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		E92E02402BD50410005D7548 /* Project+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+CoreDataClass.swift"; sourceTree = "<group>"; };
-		E92E02412BD50410005D7548 /* Project+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		E92E02452BD50608005D7548 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		E92E02482BD51068005D7548 /* NoProjectsTableViewDataVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoProjectsTableViewDataVIew.swift; sourceTree = "<group>"; };
 		E9442B7F2BC52C9E00F302E5 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
@@ -43,6 +41,8 @@
 		E95E39482BD4F7C2007B6D21 /* ProjectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectModel.swift; sourceTree = "<group>"; };
 		E968C6A12BD79B880081DF6E /* AddEditFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditFormView.swift; sourceTree = "<group>"; };
 		E994253A2BDBAC45002F8A0B /* ProjectTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectTableViewCell.swift; sourceTree = "<group>"; };
+		E9A0BF082C07145600F0888A /* Project+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+CoreDataClass.swift"; sourceTree = "<group>"; };
+		E9A0BF092C07145600F0888A /* Project+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		E9A664122BDCF63D00390A6B /* ProjectDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetailView.swift; sourceTree = "<group>"; };
 		E9E24C7A2BC2CBD400EC78C5 /* ProjectTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9E24C7D2BC2CBD400EC78C5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -68,9 +68,9 @@
 		E92E02442BD5049A005D7548 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				E92E02402BD50410005D7548 /* Project+CoreDataClass.swift */,
-				E92E02412BD50410005D7548 /* Project+CoreDataProperties.swift */,
 				E9E24C862BC2CBD400EC78C5 /* ProjectTracker.xcdatamodeld */,
+				E9A0BF082C07145600F0888A /* Project+CoreDataClass.swift */,
+				E9A0BF092C07145600F0888A /* Project+CoreDataProperties.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -255,12 +255,12 @@
 				E9E24C802BC2CBD400EC78C5 /* SceneDelegate.swift in Sources */,
 				E9442B862BC52EC600F302E5 /* ProjectDetailViewController.swift in Sources */,
 				E9A664132BDCF63D00390A6B /* ProjectDetailView.swift in Sources */,
+				E9A0BF0A2C07145600F0888A /* Project+CoreDataClass.swift in Sources */,
+				E9A0BF0B2C07145600F0888A /* Project+CoreDataProperties.swift in Sources */,
 				E95E39492BD4F7C2007B6D21 /* ProjectModel.swift in Sources */,
-				E92E02422BD50410005D7548 /* Project+CoreDataClass.swift in Sources */,
 				E92E02462BD50608005D7548 /* CoreDataManager.swift in Sources */,
 				E92E02492BD51068005D7548 /* NoProjectsTableViewDataVIew.swift in Sources */,
 				E968C6A22BD79B880081DF6E /* AddEditFormView.swift in Sources */,
-				E92E02432BD50410005D7548 /* Project+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

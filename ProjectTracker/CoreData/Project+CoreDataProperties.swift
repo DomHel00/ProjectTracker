@@ -2,7 +2,7 @@
 //  Project+CoreDataProperties.swift
 //  ProjectTracker
 //
-//  Created by Dominik Hel on 21.04.2024.
+//  Created by Dominik Hel on 29.05.2024.
 //
 //
 
@@ -16,12 +16,13 @@ extension Project {
         return NSFetchRequest<Project>(entityName: "Project")
     }
 
+    @NSManaged public var creationDate: Date
     @NSManaged public var icon: Data?
-    @NSManaged public var creationDate: Date?
-    @NSManaged public var projectProgress: String?
-    @NSManaged public var projectPriority: String?
     @NSManaged public var projectDescription: String?
-    @NSManaged public var projectTitle: String?
+    @NSManaged public var projectPriority: String
+    @NSManaged public var projectProgress: String
+    @NSManaged public var projectTitle: String
+    @NSManaged public var projectURL: URL?
 
 }
 
