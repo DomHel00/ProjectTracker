@@ -108,11 +108,11 @@ final class ProjectDetailView: UIView {
     }
     
     public func configure(with project: Project) {
-        projectTitleLabel.text = project.projectTitle ?? "-"
+        projectTitleLabel.text = project.projectTitle
         projectDescriptionLabel.text = "Description: \(project.projectDescription ?? "-")"
         projectIconImageView.image = UIImage(data: project.icon!)
-        projectPriorityLabel.text = "Priority: \(project.projectPriority ?? "-")"
-        projectProgressLabel.text = "Progress: \(project.projectProgress ?? "-")"
-        projectCreationDate.text = "Creation date: \(project.creationDate?.formatted(date: .complete, time: .omitted) ?? "-")"
+        projectPriorityLabel.text = "Priority: \(project.projectPriority)"
+        projectProgressLabel.text = "Progress: \(project.projectProgress)"
+        projectCreationDate.text = "Creation date: \(project.creationDate.formatted(date: .complete, time: .omitted))"
     }
 }
