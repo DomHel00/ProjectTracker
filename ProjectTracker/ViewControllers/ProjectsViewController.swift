@@ -16,7 +16,7 @@ final class ProjectsViewController: UIViewController {
     private let projectsTableView: UITableView = {
         let projectsTableView = UITableView()
         projectsTableView.translatesAutoresizingMaskIntoConstraints = false
-        projectsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        projectsTableView.register(ProjectTableViewCell.self, forCellReuseIdentifier: ProjectTableViewCell.identifier)
         return projectsTableView
     }()
     
@@ -151,13 +151,16 @@ extension ProjectsViewController: UITableViewDataSource, UITableViewDelegate {
         else {
             tableView.backgroundView = nil
         }
-        
         return database.fetchController.fetchedObjects?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = database.fetchController.fetchedObjects?[indexPath.row].projectTitle
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ProjectTableViewCell.identifier, for: indexPath) as? ProjectTableViewCell else {
+            return UITableViewCell()
+        }
+        
+        let project = database.fetchController.object(at: indexPath)
+        cell.setup(with: project)
         return cell
     }
     
@@ -180,5 +183,9 @@ extension ProjectsViewController: UITableViewDataSource, UITableViewDelegate {
             completion(true)
         }
         return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return (view.frame.size.width * 0.3)
     }
 }
