@@ -11,14 +11,19 @@ final class ProjectDetailViewController: UIViewController {
     weak var coordinator: MainCoordinator?
     private let project: Project
     
-    private let detailView: ProjectDetailView = {
-        let detailVIew = ProjectDetailView()
-        detailVIew.translatesAutoresizingMaskIntoConstraints = false
-        return detailVIew
+    private let projectDetailView: ProjectDetailView
+        
+    private let contentScrollView: UIScrollView = {
+        let contentScrollView = UIScrollView()
+        contentScrollView.translatesAutoresizingMaskIntoConstraints = false
+        contentScrollView.isScrollEnabled = true
+        return contentScrollView
     }()
     
     init(project: Project) {
         self.project = project
+        self.projectDetailView = ProjectDetailView(project: project)
+        projectDetailView.translatesAutoresizingMaskIntoConstraints = false
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -28,13 +33,24 @@ final class ProjectDetailViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        let h = projectDetailView.heightAnchor.constraint(equalTo: contentScrollView.heightAnchor)
+        h.isActive = true
+        h.priority = UILayoutPriority(50)
+        
         NSLayoutConstraint.activate([
-            detailView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            detailView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            detailView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            detailView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            contentScrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            contentScrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            contentScrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            contentScrollView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor, constant: -10),
+
+            projectDetailView.topAnchor.constraint(equalTo: contentScrollView.topAnchor),
+            projectDetailView.leadingAnchor.constraint(equalTo: contentScrollView.leadingAnchor),
+            projectDetailView.trailingAnchor.constraint(equalTo: contentScrollView.trailingAnchor),
+            projectDetailView.bottomAnchor.constraint(equalTo: contentScrollView.bottomAnchor),
+            projectDetailView.widthAnchor.constraint(equalTo: contentScrollView.widthAnchor)
         ])
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -42,7 +58,7 @@ final class ProjectDetailViewController: UIViewController {
         navigationItem.largeTitleDisplayMode = .never
         title = "Project detail"
         
-        view.addSubview(detailView)
-        detailView.configure(with: project)
+        view.addSubview(contentScrollView)
+        contentScrollView.addSubview(projectDetailView)
     }
 }
