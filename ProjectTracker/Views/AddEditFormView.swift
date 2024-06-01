@@ -13,6 +13,8 @@ protocol AddEditFormViewDelegate: AnyObject {
 
 final class AddEditFormView: UIView {
     public weak var delegate: AddEditFormViewDelegate?
+    private var regularConstraints: [NSLayoutConstraint]?
+    private var compactConstraints: [NSLayoutConstraint]?
     
     private let projectTitleLabel: UILabel = {
         let projectTitleLabel = UILabel()
@@ -138,6 +140,8 @@ final class AddEditFormView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .secondarySystemBackground
+        regularConstraints = self.setConstraint(for: .regular)
+        compactConstraints = self.setConstraint(for: .compact)
         addSubview(projectTitleLabel)
         addSubview(projectTitleTextField)
         addSubview(projectDescriptionLabel)
@@ -159,71 +163,146 @@ final class AddEditFormView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        NSLayoutConstraint.activate([
-            projectTitleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
-            projectTitleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            projectTitleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            
-            projectTitleTextField.topAnchor.constraint(equalTo: projectTitleLabel.bottomAnchor, constant: 10),
-            projectTitleTextField.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            projectTitleTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            projectTitleTextField.heightAnchor.constraint(equalToConstant: 30),
-            
-            projectDescriptionLabel.topAnchor.constraint(equalTo: projectTitleTextField.bottomAnchor, constant: 20),
-            projectDescriptionLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            projectDescriptionLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            
-            projectDescriptionTextView.topAnchor.constraint(equalTo: projectDescriptionLabel.bottomAnchor, constant: 10),
-            projectDescriptionTextView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            projectDescriptionTextView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            projectDescriptionTextView.heightAnchor.constraint(equalToConstant: 150),
-            
-            projectIconLabel.topAnchor.constraint(equalTo: projectDescriptionTextView.bottomAnchor, constant: 20),
-            projectIconLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            projectIconLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            
-            projectIconImageView.topAnchor.constraint(equalTo: projectIconLabel.bottomAnchor, constant: 10),
-            projectIconImageView.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.5),
-            projectIconImageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.5),
-            projectIconImageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            
-            projectIconButton.topAnchor.constraint(equalTo: projectIconImageView.bottomAnchor, constant: 10),
-            projectIconButton.widthAnchor.constraint(equalTo: projectIconImageView.widthAnchor),
-            projectIconButton.centerXAnchor.constraint(equalTo: projectIconImageView.centerXAnchor),
-            
-            projectPriorityLabel.topAnchor.constraint(equalTo: projectIconButton.bottomAnchor, constant: 20),
-            projectPriorityLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            projectPriorityLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            
-            projectPrioritySegmentedControl.topAnchor.constraint(equalTo: projectPriorityLabel.bottomAnchor, constant: 10),
-            projectPrioritySegmentedControl.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            projectPrioritySegmentedControl.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            
-            projectProgressLabel.topAnchor.constraint(equalTo: projectPrioritySegmentedControl.bottomAnchor, constant: 20),
-            projectProgressLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            projectProgressLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            
-            projectProgressSegmentedControl.topAnchor.constraint(equalTo: projectProgressLabel.bottomAnchor, constant: 10),
-            projectProgressSegmentedControl.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            projectProgressSegmentedControl.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            
-            projectURLLabel.topAnchor.constraint(equalTo: projectProgressSegmentedControl.bottomAnchor, constant: 20),
-            projectURLLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            projectURLLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            
-            projectURLTextField.topAnchor.constraint(equalTo: projectURLLabel.bottomAnchor, constant: 10),
-            projectURLTextField.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            projectURLTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            projectURLTextField.heightAnchor.constraint(equalToConstant: 30),
-            projectURLTextField.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10)
-        ])
-    }
-    
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         updateCGColors()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        switch (traitCollection.verticalSizeClass) {
+        case .regular:
+            NSLayoutConstraint.deactivate(compactConstraints!)
+            NSLayoutConstraint.activate(regularConstraints!)
+        case .compact:
+            NSLayoutConstraint.deactivate(regularConstraints!)
+            NSLayoutConstraint.activate(compactConstraints!)
+        default:
+            break
+        }
+    }
+    
+    private func setConstraint(for sizeClass: SizeClassEnum) -> [NSLayoutConstraint] {
+        switch sizeClass {
+        case .regular:
+            return [
+                projectTitleLabel.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 10),
+                projectTitleLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+                projectTitleLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+                
+                projectTitleTextField.topAnchor.constraint(equalTo: projectTitleLabel.safeAreaLayoutGuide.bottomAnchor, constant: 10),
+                projectTitleTextField.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+                projectTitleTextField.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+                projectTitleTextField.heightAnchor.constraint(equalToConstant: 30),
+                
+                projectDescriptionLabel.topAnchor.constraint(equalTo: projectTitleTextField.safeAreaLayoutGuide.bottomAnchor, constant: 20),
+                projectDescriptionLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+                projectDescriptionLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+                
+                projectDescriptionTextView.topAnchor.constraint(equalTo: projectDescriptionLabel.safeAreaLayoutGuide.bottomAnchor, constant: 10),
+                projectDescriptionTextView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+                projectDescriptionTextView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+                projectDescriptionTextView.heightAnchor.constraint(equalToConstant: 150),
+                
+                projectIconLabel.topAnchor.constraint(equalTo: projectDescriptionTextView.safeAreaLayoutGuide.bottomAnchor, constant: 20),
+                projectIconLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+                projectIconLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+                
+                projectIconImageView.topAnchor.constraint(equalTo: projectIconLabel.safeAreaLayoutGuide.bottomAnchor, constant: 10),
+                projectIconImageView.heightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.widthAnchor, multiplier: 0.5),
+                projectIconImageView.widthAnchor.constraint(equalTo: self.safeAreaLayoutGuide.widthAnchor, multiplier: 0.5),
+                projectIconImageView.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
+                
+                projectIconButton.topAnchor.constraint(equalTo: projectIconImageView.safeAreaLayoutGuide.bottomAnchor, constant: 10),
+                projectIconButton.widthAnchor.constraint(equalTo: projectIconImageView.safeAreaLayoutGuide.widthAnchor),
+                projectIconButton.centerXAnchor.constraint(equalTo: projectIconImageView.safeAreaLayoutGuide.centerXAnchor),
+                
+                projectPriorityLabel.topAnchor.constraint(equalTo: projectIconButton.safeAreaLayoutGuide.bottomAnchor, constant: 20),
+                projectPriorityLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+                projectPriorityLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+                
+                projectPrioritySegmentedControl.topAnchor.constraint(equalTo: projectPriorityLabel.safeAreaLayoutGuide.bottomAnchor, constant: 10),
+                projectPrioritySegmentedControl.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+                projectPrioritySegmentedControl.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+                
+                projectProgressLabel.topAnchor.constraint(equalTo: projectPrioritySegmentedControl.safeAreaLayoutGuide.bottomAnchor, constant: 20),
+                projectProgressLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+                projectProgressLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+                
+                projectProgressSegmentedControl.topAnchor.constraint(equalTo: projectProgressLabel.safeAreaLayoutGuide.bottomAnchor, constant: 10),
+                projectProgressSegmentedControl.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+                projectProgressSegmentedControl.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+                
+                projectURLLabel.topAnchor.constraint(equalTo: projectProgressSegmentedControl.safeAreaLayoutGuide.bottomAnchor, constant: 20),
+                projectURLLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+                projectURLLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+                
+                projectURLTextField.topAnchor.constraint(equalTo: projectURLLabel.safeAreaLayoutGuide.bottomAnchor, constant: 10),
+                projectURLTextField.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+                projectURLTextField.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+                projectURLTextField.heightAnchor.constraint(equalToConstant: 30),
+                projectURLTextField.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -10)
+            ]
+        case .compact:
+            return [
+                projectTitleLabel.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 10),
+                projectTitleLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+                projectTitleLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+                
+                projectTitleTextField.topAnchor.constraint(equalTo: projectTitleLabel.safeAreaLayoutGuide.bottomAnchor, constant: 10),
+                projectTitleTextField.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+                projectTitleTextField.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+                projectTitleTextField.heightAnchor.constraint(equalToConstant: 30),
+                
+                projectDescriptionLabel.topAnchor.constraint(equalTo: projectTitleTextField.safeAreaLayoutGuide.bottomAnchor, constant: 20),
+                projectDescriptionLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+                projectDescriptionLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+                
+                projectDescriptionTextView.topAnchor.constraint(equalTo: projectDescriptionLabel.safeAreaLayoutGuide.bottomAnchor, constant: 10),
+                projectDescriptionTextView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+                projectDescriptionTextView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+                projectDescriptionTextView.heightAnchor.constraint(equalToConstant: 150),
+                
+                projectIconLabel.topAnchor.constraint(equalTo: projectDescriptionTextView.safeAreaLayoutGuide.bottomAnchor, constant: 20),
+                projectIconLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+                projectIconLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+                
+                projectIconImageView.topAnchor.constraint(equalTo: projectIconLabel.safeAreaLayoutGuide.bottomAnchor, constant: 10),
+                projectIconImageView.heightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.widthAnchor, multiplier: 0.3),
+                projectIconImageView.widthAnchor.constraint(equalTo: self.safeAreaLayoutGuide.widthAnchor, multiplier: 0.3),
+                projectIconImageView.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
+                
+                projectIconButton.topAnchor.constraint(equalTo: projectIconImageView.safeAreaLayoutGuide.bottomAnchor, constant: 10),
+                projectIconButton.widthAnchor.constraint(equalTo: projectIconImageView.safeAreaLayoutGuide.widthAnchor),
+                projectIconButton.centerXAnchor.constraint(equalTo: projectIconImageView.safeAreaLayoutGuide.centerXAnchor),
+                
+                projectPriorityLabel.topAnchor.constraint(equalTo: projectIconButton.safeAreaLayoutGuide.bottomAnchor, constant: 20),
+                projectPriorityLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+                projectPriorityLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+                
+                projectPrioritySegmentedControl.topAnchor.constraint(equalTo: projectPriorityLabel.safeAreaLayoutGuide.bottomAnchor, constant: 10),
+                projectPrioritySegmentedControl.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+                projectPrioritySegmentedControl.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+                
+                projectProgressLabel.topAnchor.constraint(equalTo: projectPrioritySegmentedControl.safeAreaLayoutGuide.bottomAnchor, constant: 20),
+                projectProgressLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+                projectProgressLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+                
+                projectProgressSegmentedControl.topAnchor.constraint(equalTo: projectProgressLabel.safeAreaLayoutGuide.bottomAnchor, constant: 10),
+                projectProgressSegmentedControl.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+                projectProgressSegmentedControl.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+                
+                projectURLLabel.topAnchor.constraint(equalTo: projectProgressSegmentedControl.safeAreaLayoutGuide.bottomAnchor, constant: 20),
+                projectURLLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+                projectURLLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+                
+                projectURLTextField.topAnchor.constraint(equalTo: projectURLLabel.safeAreaLayoutGuide.bottomAnchor, constant: 10),
+                projectURLTextField.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+                projectURLTextField.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+                projectURLTextField.heightAnchor.constraint(equalToConstant: 30),
+                projectURLTextField.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -10)
+            ]
+        }
     }
     
     private func updateCGColors() {
@@ -242,7 +321,7 @@ final class AddEditFormView: UIView {
         self.projectIconImageView.image = image
     }
     
-    public func AddFormUI() {
+    public func configureUIAddMode() {
         projectTitleLabel.text = "Set project title"
         projectTitleTextField.placeholder = "Set project title"
         projectDescriptionLabel.text = "Set project description (optional)"
@@ -257,7 +336,7 @@ final class AddEditFormView: UIView {
         projectURLTextField.placeholder = "Set project url"
     }
     
-    public func EditFormUI(for project: Project) {
+    public func configureUIEditMode(for project: Project) {
         projectTitleLabel.text = "Edit project title"
         projectTitleTextField.placeholder = "Edit project title"
         projectDescriptionLabel.text = "Edit project description (optional)"
