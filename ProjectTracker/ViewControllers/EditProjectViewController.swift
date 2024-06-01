@@ -70,7 +70,7 @@ final class EditProjectViewController: UIViewController {
         title = "Edit project"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", image: nil, target: self, action: #selector(didTapSaveButton))
         
-        contentFormView.EditFormUI(for: project)
+        contentFormView.configureUIEditMode(for: project)
         contentFormView.delegate = self
         
         view.addSubview(contentScrollView)

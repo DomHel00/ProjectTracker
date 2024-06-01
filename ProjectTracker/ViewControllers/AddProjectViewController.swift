@@ -61,7 +61,7 @@ final class AddProjectViewController: UIViewController {
         title = "Add new project"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create", image: nil, target: self, action: #selector(didTapCreateButton))
         
-        contentFormView.AddFormUI()
+        contentFormView.configureUIAddMode()
         contentFormView.delegate = self
         
         view.addSubview(contentScrollView)
