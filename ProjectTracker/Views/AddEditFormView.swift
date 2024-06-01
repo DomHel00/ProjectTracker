@@ -65,6 +65,7 @@ final class AddEditFormView: UIView {
     private let projectIconImageView: UIImageView = {
         let projectIconImageView = UIImageView()
         projectIconImageView.translatesAutoresizingMaskIntoConstraints = false
+        projectIconImageView.clipsToBounds = true
         projectIconImageView.contentMode = .scaleToFill
         projectIconImageView.layer.cornerRadius = 8
         projectIconImageView.layer.borderWidth = 0.5
@@ -150,7 +151,7 @@ final class AddEditFormView: UIView {
         addSubview(projectProgressSegmentedControl)
         addSubview(projectURLLabel)
         addSubview(projectURLTextField)
-        projectIconButton.addTarget(self, action: #selector(showPhotoPciker), for: .touchUpInside)
+        projectIconButton.addTarget(self, action: #selector(showPhotoPicker), for: .touchUpInside)
         addToolbarToKeyboard()
     }
     
@@ -233,7 +234,7 @@ final class AddEditFormView: UIView {
         projectURLTextField.layer.borderColor = UIColor.label.cgColor
     }
     
-    @objc private func showPhotoPciker() {
+    @objc private func showPhotoPicker() {
         delegate?.didTapIconButton()
     }
     
@@ -357,12 +358,8 @@ final class AddEditFormView: UIView {
 
 extension String {
     var isValidURL: Bool {
-        let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
-        if let match = detector.firstMatch(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count)) {
-            // it is a link, if the match covers the whole string
-            return match.range.length == self.utf16.count
-        } else {
-            return false
-        }
+        let regex = "^(http|https)://([\\w_-]+(?:(?:\\.[\\w_-]+)+))([\\w.,@?^=%&:/+;\\*]*)?$"
+        let predicate = NSPredicate(format: "SELF MATCHES %@", regex)
+        return predicate.evaluate(with: self)
     }
 }
