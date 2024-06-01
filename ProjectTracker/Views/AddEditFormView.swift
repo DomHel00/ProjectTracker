@@ -355,11 +355,3 @@ final class AddEditFormView: UIView {
         }
     }
 }
-
-extension String {
-    var isValidURL: Bool {
-        let regex = "^(http|https)://([\\w_-]+(?:(?:\\.[\\w_-]+)+))([\\w.,@?^=%&:/+;\\*]*)?$"
-        let predicate = NSPredicate(format: "SELF MATCHES %@", regex)
-        return predicate.evaluate(with: self)
-    }
-}
