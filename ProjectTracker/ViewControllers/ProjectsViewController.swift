@@ -24,8 +24,6 @@ final class ProjectsViewController: UIViewController {
         let noProjectsTableViewDataVIew = NoProjectsTableViewDataVIew()
         noProjectsTableViewDataVIew.translatesAutoresizingMaskIntoConstraints = false
         noProjectsTableViewDataVIew.layer.cornerRadius = 10
-        noProjectsTableViewDataVIew.layer.borderColor = UIColor.secondaryLabel.cgColor
-        noProjectsTableViewDataVIew.layer.borderWidth = 1
         return noProjectsTableViewDataVIew
     }()
     
@@ -160,7 +158,7 @@ extension ProjectsViewController: UITableViewDataSource, UITableViewDelegate {
         }
         
         let project = database.fetchController.object(at: indexPath)
-        cell.setup(with: project)
+        cell.configureUI(with: project)
         return cell
     }
     
@@ -186,6 +184,14 @@ extension ProjectsViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return (view.frame.size.width * 0.3)
+        switch (traitCollection.verticalSizeClass) {
+        case .regular:
+            return (view.frame.size.width * 0.3)
+        case .compact:
+            return (view.frame.size.width * 0.15)
+
+        default:
+            return 0
+        }
     }
 }

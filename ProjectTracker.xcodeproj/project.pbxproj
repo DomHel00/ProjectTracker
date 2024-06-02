@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E902480C2C0B8FD900396FBC /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E902480B2C0B8FD900396FBC /* Extensions.swift */; };
 		E92E02462BD50608005D7548 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92E02452BD50608005D7548 /* CoreDataManager.swift */; };
 		E92E02492BD51068005D7548 /* NoProjectsTableViewDataVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92E02482BD51068005D7548 /* NoProjectsTableViewDataVIew.swift */; };
 		E9442B802BC52C9E00F302E5 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9442B7F2BC52C9E00F302E5 /* MainCoordinator.swift */; };
@@ -21,6 +22,7 @@
 		E9A0BF0A2C07145600F0888A /* Project+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A0BF082C07145600F0888A /* Project+CoreDataClass.swift */; };
 		E9A0BF0B2C07145600F0888A /* Project+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A0BF092C07145600F0888A /* Project+CoreDataProperties.swift */; };
 		E9A664132BDCF63D00390A6B /* ProjectDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A664122BDCF63D00390A6B /* ProjectDetailView.swift */; };
+		E9AA976E2C0B692600BE4036 /* SizeClassEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AA976D2C0B692600BE4036 /* SizeClassEnum.swift */; };
 		E9E24C7E2BC2CBD400EC78C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E24C7D2BC2CBD400EC78C5 /* AppDelegate.swift */; };
 		E9E24C802BC2CBD400EC78C5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E24C7F2BC2CBD400EC78C5 /* SceneDelegate.swift */; };
 		E9E24C822BC2CBD400EC78C5 /* ProjectsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E24C812BC2CBD400EC78C5 /* ProjectsViewController.swift */; };
@@ -30,6 +32,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E902480B2C0B8FD900396FBC /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		E92E02452BD50608005D7548 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		E92E02482BD51068005D7548 /* NoProjectsTableViewDataVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoProjectsTableViewDataVIew.swift; sourceTree = "<group>"; };
 		E9442B7F2BC52C9E00F302E5 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
@@ -44,6 +47,7 @@
 		E9A0BF082C07145600F0888A /* Project+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+CoreDataClass.swift"; sourceTree = "<group>"; };
 		E9A0BF092C07145600F0888A /* Project+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		E9A664122BDCF63D00390A6B /* ProjectDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetailView.swift; sourceTree = "<group>"; };
+		E9AA976D2C0B692600BE4036 /* SizeClassEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizeClassEnum.swift; sourceTree = "<group>"; };
 		E9E24C7A2BC2CBD400EC78C5 /* ProjectTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9E24C7D2BC2CBD400EC78C5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E9E24C7F2BC2CBD400EC78C5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -129,6 +133,15 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		E9AA976F2C0B695000BE4036 /* Others */ = {
+			isa = PBXGroup;
+			children = (
+				E9AA976D2C0B692600BE4036 /* SizeClassEnum.swift */,
+				E902480B2C0B8FD900396FBC /* Extensions.swift */,
+			);
+			path = Others;
+			sourceTree = "<group>";
+		};
 		E9D174232BD51E1200ED8F07 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -166,6 +179,7 @@
 				E9442B872BC52FCD00F302E5 /* ViewControllers */,
 				E9D174232BD51E1200ED8F07 /* Views */,
 				E92E02472BD5074B005D7548 /* Managers */,
+				E9AA976F2C0B695000BE4036 /* Others */,
 				E9E24C892BC2CBD600EC78C5 /* Assets.xcassets */,
 				E9E24C8E2BC2CBD600EC78C5 /* Info.plist */,
 				E9442B7E2BC52C5D00F302E5 /* Storyboards */,
@@ -254,9 +268,11 @@
 				E9442B842BC52EAE00F302E5 /* EditProjectViewController.swift in Sources */,
 				E9E24C802BC2CBD400EC78C5 /* SceneDelegate.swift in Sources */,
 				E9442B862BC52EC600F302E5 /* ProjectDetailViewController.swift in Sources */,
+				E9AA976E2C0B692600BE4036 /* SizeClassEnum.swift in Sources */,
 				E9A664132BDCF63D00390A6B /* ProjectDetailView.swift in Sources */,
 				E9A0BF0A2C07145600F0888A /* Project+CoreDataClass.swift in Sources */,
 				E9A0BF0B2C07145600F0888A /* Project+CoreDataProperties.swift in Sources */,
+				E902480C2C0B8FD900396FBC /* Extensions.swift in Sources */,
 				E95E39492BD4F7C2007B6D21 /* ProjectModel.swift in Sources */,
 				E92E02462BD50608005D7548 /* CoreDataManager.swift in Sources */,
 				E92E02492BD51068005D7548 /* NoProjectsTableViewDataVIew.swift in Sources */,
