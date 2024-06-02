@@ -15,7 +15,16 @@ final class ProjectTableViewCell: UITableViewCell {
         projectImageView.translatesAutoresizingMaskIntoConstraints = false
         projectImageView.contentMode = .scaleAspectFill
         projectImageView.clipsToBounds = true
+        projectImageView.layer.cornerRadius = 8
         return projectImageView
+    }()
+    
+    private let verticalStackView: UIStackView = {
+        let verticalStackView = UIStackView()
+        verticalStackView.translatesAutoresizingMaskIntoConstraints = false
+        verticalStackView.axis = .vertical
+        verticalStackView.distribution = .fillProportionally
+        return verticalStackView
     }()
     
     private let projectTitleLabel: UILabel = {
@@ -23,8 +32,9 @@ final class ProjectTableViewCell: UITableViewCell {
         projectTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         projectTitleLabel.numberOfLines = 0
         projectTitleLabel.textColor = .label
-        projectTitleLabel.textAlignment = .center
+        projectTitleLabel.textAlignment = .left
         projectTitleLabel.font = .preferredFont(forTextStyle: .title3)
+        projectTitleLabel.clipsToBounds = true
         return projectTitleLabel
     }()
     
@@ -34,16 +44,19 @@ final class ProjectTableViewCell: UITableViewCell {
         projectDetailsLabel.numberOfLines = 0
         projectDetailsLabel.textColor = .label
         projectDetailsLabel.textAlignment = .left
-        projectDetailsLabel.font = .preferredFont(forTextStyle: .subheadline)
+        projectDetailsLabel.font = .preferredFont(forTextStyle: .body)
+        projectDetailsLabel.clipsToBounds = true
         return projectDetailsLabel
     }()
     
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.accessoryType = .disclosureIndicator
+        self.backgroundColor = .systemFill
         contentView.addSubview(projectImageView)
-        contentView.addSubview(projectTitleLabel)
-        contentView.addSubview(projectDetailsLabel)
+        contentView.addSubview(verticalStackView)
+        verticalStackView.addArrangedSubview(projectTitleLabel)
+        verticalStackView.addArrangedSubview(projectDetailsLabel)
     }
     
     required init?(coder: NSCoder) {
@@ -60,28 +73,21 @@ final class ProjectTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         NSLayoutConstraint.activate([
-            projectImageView.heightAnchor.constraint(equalToConstant: (contentView.frame.size.width * 0.3)),
-            projectImageView.widthAnchor.constraint(equalToConstant: (contentView.frame.size.width * 0.3) - 10),
             projectImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             projectImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
             projectImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
 
-            projectTitleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            projectTitleLabel.leadingAnchor.constraint(equalTo: projectImageView.trailingAnchor, constant: 5),
-            projectTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
-            
-            projectDetailsLabel.topAnchor.constraint(equalTo: projectTitleLabel.bottomAnchor, constant: 5),
-            projectDetailsLabel.leadingAnchor.constraint(equalTo: projectImageView.trailingAnchor, constant: 5),
-            projectDetailsLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
-            projectDetailsLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5)
-        ])
-        
-        print(projectImageView.frame.size.height)
-        print(projectImageView.frame.size.width)
+            projectImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, constant: -10),
+            projectImageView.widthAnchor.constraint(equalTo: contentView.heightAnchor, constant: -10),
 
+            verticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            verticalStackView.leadingAnchor.constraint(equalTo: projectImageView.trailingAnchor, constant: 10),
+            verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+            verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5)
+        ])
     }
     
-    func setup(with project: Project) {
+    public func configureUI(with project: Project) {
         if let icon = project.icon {
             projectImageView.image = UIImage(data: icon)
         }
@@ -89,6 +95,6 @@ final class ProjectTableViewCell: UITableViewCell {
             projectImageView.image = UIImage(named: "icon")
         }
         projectTitleLabel.text = project.projectTitle
-        projectDetailsLabel.text = "Priority: \(project.projectPriority)\nProgress: \(project.projectProgress)\nCreation date: \(project.creationDate.formatted())"
+        projectDetailsLabel.text = "Priority: \(project.projectPriority)\nProgress: \(project.projectProgress)\nCreation date: \(project.creationDate.formatted(date: .numeric, time: .omitted))"
     }
 }
