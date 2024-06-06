@@ -12,30 +12,13 @@ final class CoreDataManager {
     static let shared = CoreDataManager()
     
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    public var fetchController: NSFetchedResultsController<Project>!
-    
-    private init() {
-        initFetchController(sortType: "")
-    }
-    
-    private func initFetchController(sortType: String) {
-        let request = Project.fetchRequest() as NSFetchRequest<Project>
-        let sort = NSSortDescriptor(key: #keyPath(Project.projectTitle), ascending: true)
-        
-        request.sortDescriptors = [sort]
-        
-        do {
-            fetchController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-            try fetchController.performFetch()
-        }
-        catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
-        }
-    }
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+
+    private init() {}
     
     public func addObject(_ object: ProjectModel) {
         let project = Project(context: context)
+        project.projectID = UUID()
         project.projectTitle = object.projectTitle
         project.projectDescription = object.projectDescription
         project.projectPriority = object.projectPriority
@@ -52,16 +35,18 @@ final class CoreDataManager {
     }
     
     public func updateObject(oldObject: Project, newObject: ProjectModel) {
-        guard let index = fetchController.fetchedObjects?.firstIndex(of: oldObject) else {
-            return
-        }
-        let object = fetchController.fetchedObjects?[index]
-        object?.projectTitle = newObject.projectTitle
-        object?.projectDescription = newObject.projectDescription
-        object?.icon = newObject.icon
-        object?.projectPriority = newObject.projectPriority
-        object?.projectProgress = newObject.projectProgress
-        object?.projectURL = newObject.projectURL
+        let fetchRequest: NSFetchRequest<Project> = Project.fetchRequest()
+
+        let predicate = NSPredicate(format: "projectID == '\(oldObject.projectID)'")
+        fetchRequest.predicate = predicate
+
+        let fetchedObject = try? context.fetch(fetchRequest).first
+        fetchedObject?.projectTitle = newObject.projectTitle
+        fetchedObject?.projectDescription = newObject.projectDescription
+        fetchedObject?.icon = newObject.icon
+        fetchedObject?.projectPriority = newObject.projectPriority
+        fetchedObject?.projectProgress = newObject.projectProgress
+        fetchedObject?.projectURL = newObject.projectURL
         try? context.save()
     }
 }
