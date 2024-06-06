@@ -4,6 +4,7 @@
         <attribute name="creationDate" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="icon" optional="YES" attributeType="Binary"/>
         <attribute name="projectDescription" optional="YES" attributeType="String"/>
+        <attribute name="projectID" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="projectPriority" attributeType="String"/>
         <attribute name="projectProgress" attributeType="String"/>
         <attribute name="projectTitle" attributeType="String"/>
