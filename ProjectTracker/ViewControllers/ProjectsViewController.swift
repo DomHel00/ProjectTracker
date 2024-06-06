@@ -11,7 +11,14 @@ import CoreData
 final class ProjectsViewController: UIViewController {
     weak var coordinator: MainCoordinator?
     
+    private var fetchController: NSFetchedResultsController<Project>!
     private let database = CoreDataManager.shared
+
+    private var searchText: String? {
+        didSet {
+            initFetchController(sortType: "", filterString: searchText)
+        }
+    }
     
     private let projectsTableView: UITableView = {
         let projectsTableView = UITableView()
@@ -27,6 +34,80 @@ final class ProjectsViewController: UIViewController {
         return noProjectsTableViewDataVIew
     }()
     
+    private let searchBar: UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.placeholder = "Search..."
+        searchBar.sizeToFit()
+        return searchBar
+    }()
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        searchText = nil
+        searchBar.text = nil
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        NSLayoutConstraint.activate([
+            projectsTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            projectsTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            projectsTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            projectsTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+        
+        
+        var noProjectsTableViewDataVIewSize: CGFloat = 0
+        
+        switch (traitCollection.verticalSizeClass) {
+        case .regular:
+            noProjectsTableViewDataVIewSize = (view.frame.size.width * 0.3)
+            break
+        case .compact:
+            noProjectsTableViewDataVIewSize = (view.frame.size.width * 0.15)
+            break
+        default:
+            break
+        }
+        
+        if fetchController.fetchedObjects?.count == 0 {
+            NSLayoutConstraint.activate([
+                noProjectsTableViewDataVIew.heightAnchor.constraint(equalToConstant: noProjectsTableViewDataVIewSize),
+                noProjectsTableViewDataVIew.widthAnchor.constraint(equalToConstant: noProjectsTableViewDataVIewSize),
+                noProjectsTableViewDataVIew.centerXAnchor.constraint(equalTo: projectsTableView.centerXAnchor),
+                noProjectsTableViewDataVIew.centerYAnchor.constraint(equalTo: projectsTableView.centerYAnchor)
+            ])
+        }
+        else {
+            NSLayoutConstraint.deactivate([
+                noProjectsTableViewDataVIew.heightAnchor.constraint(equalToConstant:noProjectsTableViewDataVIewSize),
+                noProjectsTableViewDataVIew.widthAnchor.constraint(equalToConstant: noProjectsTableViewDataVIewSize),
+                noProjectsTableViewDataVIew.centerXAnchor.constraint(equalTo: projectsTableView.centerXAnchor),
+                noProjectsTableViewDataVIew.centerYAnchor.constraint(equalTo: projectsTableView.centerYAnchor)
+            ])
+        }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .systemBackground
+        
+        navigationItem.largeTitleDisplayMode = .always
+        title = "My projects"
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add new project", image: UIImage(systemName: "plus"), target: self, action: #selector(didTapRightBarButtonItem))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Select sort type", image: UIImage(systemName: "arrow.up.arrow.down"), target: self, action: #selector(didTapLeftBarButtonItem))
+        
+        initFetchController(sortType: "", filterString: searchText)
+
+        projectsTableView.tableHeaderView = searchBar
+        
+        projectsTableView.dataSource = self
+        projectsTableView.delegate = self
+        searchBar.delegate = self
+
+        view.addSubview(projectsTableView)
+    }
+    
     @objc private func didTapRightBarButtonItem() {
         DispatchQueue.main.async { [weak self] in
             self?.coordinator?.pushAddProjectViewController()
@@ -37,119 +118,46 @@ final class ProjectsViewController: UIViewController {
         
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        NSLayoutConstraint.activate([
-            projectsTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            projectsTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            projectsTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            projectsTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
-        
-        if database.fetchController.fetchedObjects?.count == 0 {
-            NSLayoutConstraint.activate([
-                noProjectsTableViewDataVIew.heightAnchor.constraint(equalTo: projectsTableView.widthAnchor, multiplier: 0.4),
-                noProjectsTableViewDataVIew.widthAnchor.constraint(equalTo: projectsTableView.widthAnchor, multiplier: 0.4),
-                noProjectsTableViewDataVIew.centerXAnchor.constraint(equalTo: projectsTableView.centerXAnchor),
-                noProjectsTableViewDataVIew.centerYAnchor.constraint(equalTo: projectsTableView.centerYAnchor)
-            ])
-        }
-        else {
-            NSLayoutConstraint.deactivate([
-                noProjectsTableViewDataVIew.heightAnchor.constraint(equalTo: projectsTableView.widthAnchor, multiplier: 0.4),
-                noProjectsTableViewDataVIew.widthAnchor.constraint(equalTo: projectsTableView.widthAnchor, multiplier: 0.4),
-                noProjectsTableViewDataVIew.centerXAnchor.constraint(equalTo: projectsTableView.centerXAnchor),
-                noProjectsTableViewDataVIew.centerYAnchor.constraint(equalTo: projectsTableView.centerYAnchor)
-            ])
-        }
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+    private func initFetchController(sortType: String, filterString: String?) {
+        let request = Project.fetchRequest() as NSFetchRequest<Project>
+        let titleSort = NSSortDescriptor(key: #keyPath(Project.projectTitle), ascending: true)
+        let dateSort = NSSortDescriptor(key: #keyPath(Project.creationDate), ascending: true)
 
-        navigationItem.largeTitleDisplayMode = .always
-        title = "My projects"
+        request.sortDescriptors = [titleSort, dateSort]
+        if let filterString = filterString {
+            if filterString != "" {
+                request.predicate = NSPredicate(format: "projectTitle CONTAINS[c] %@", filterString)
+            }
+        }
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add new project", image: UIImage(systemName: "plus"), target: self, action: #selector(didTapRightBarButtonItem))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Select sort type", image: UIImage(systemName: "arrow.up.arrow.down"), target: self, action: #selector(didTapLeftBarButtonItem))
-        
-        database.fetchController.delegate = self
-        
-        projectsTableView.dataSource = self
-        projectsTableView.delegate = self
-        
-        view.addSubview(projectsTableView)
+        do {
+            fetchController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: database.context, sectionNameKeyPath: nil, cacheName: nil)
+            fetchController.delegate = self
+            try fetchController.performFetch()
+        }
+        catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
     }
 }
 
 extension ProjectsViewController: NSFetchedResultsControllerDelegate {
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult>) {
-        print("1")
-    }
-    
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult>) {
-        print("2")
-        
-    }
-    
     func controller(_ controller: NSFetchedResultsController<any NSFetchRequestResult>, didChangeContentWith snapshot: NSDiffableDataSourceSnapshotReference) {
-        print("3")
         DispatchQueue.main.async { [weak self] in
             self?.projectsTableView.reloadData()
-        }
-    }
-    
-    func controller(_ controller: NSFetchedResultsController<any NSFetchRequestResult>, didChangeContentWith diff: CollectionDifference<NSManagedObjectID>) {
-        print("4")
-    }
-    
-    func controller(_ controller: NSFetchedResultsController<any NSFetchRequestResult>, didChange sectionInfo: any NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-        print("5")
-        switch type {
-            
-        case .insert:
-            print("přidávám")
-        case .delete:
-            print("mažu")
-        case .move:
-            print("movuju")
-        case .update:
-            print("updatuju")
-        @unknown default:
-            print("nic")
-        }
-    }
-    
-    func controller(_ controller: NSFetchedResultsController<any NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        print("6")
-        
-        switch type {
-            
-        case .insert:
-            print("přidávám2")
-        case .delete:
-            print("mažu2")
-        case .move:
-            print("movuju")
-        case .update:
-            print("updatuju")
-        @unknown default:
-            print("nic")
         }
     }
 }
 
 extension ProjectsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if database.fetchController.fetchedObjects?.count == 0 {
+        if fetchController.fetchedObjects?.count == 0 {
             tableView.backgroundView = noProjectsTableViewDataVIew
         }
         else {
             tableView.backgroundView = nil
         }
-        return database.fetchController.fetchedObjects?.count ?? 0
+        return fetchController.fetchedObjects?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -157,19 +165,19 @@ extension ProjectsViewController: UITableViewDataSource, UITableViewDelegate {
             return UITableViewCell()
         }
         
-        let project = database.fetchController.object(at: indexPath)
+        let project = fetchController.object(at: indexPath)
         cell.configureUI(with: project)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let selectedProject = database.fetchController.object(at: indexPath)
+        let selectedProject = fetchController.object(at: indexPath)
         coordinator?.pushProjectDetailViewController(project: selectedProject)
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let selectedProject = database.fetchController.object(at: indexPath)
+        let selectedProject = fetchController.object(at: indexPath)
         
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] action, view, completion in
             self?.database.deleteObject(selectedProject)
@@ -189,9 +197,18 @@ extension ProjectsViewController: UITableViewDataSource, UITableViewDelegate {
             return (view.frame.size.width * 0.3)
         case .compact:
             return (view.frame.size.width * 0.15)
-
         default:
             return 0
         }
+    }
+}
+
+extension ProjectsViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        self.searchText = searchText
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
 }
