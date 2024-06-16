@@ -37,6 +37,7 @@ final class ProjectsViewController: UIViewController {
     private let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.placeholder = "Search..."
+        searchBar.showsCancelButton = true
         searchBar.sizeToFit()
         return searchBar
     }()
@@ -110,6 +111,7 @@ final class ProjectsViewController: UIViewController {
     
     @objc private func didTapRightBarButtonItem() {
         DispatchQueue.main.async { [weak self] in
+            self?.searchBar.resignFirstResponder()
             self?.coordinator?.pushAddProjectViewController()
         }
     }
@@ -173,6 +175,7 @@ extension ProjectsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let selectedProject = fetchController.object(at: indexPath)
+        self.searchBar.resignFirstResponder()
         coordinator?.pushProjectDetailViewController(project: selectedProject)
     }
     
@@ -209,6 +212,14 @@ extension ProjectsViewController: UISearchBarDelegate {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
     }
 }
