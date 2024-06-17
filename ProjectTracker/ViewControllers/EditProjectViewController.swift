@@ -79,7 +79,6 @@ final class EditProjectViewController: UIViewController {
     
     @objc private func didTapSaveButton() {
         if let newProject = contentFormView.createProject() {
-            // TODO: Update project
             databse.updateObject(oldObject: project, newObject: newProject)
             coordinator?.popToProjectsViewController()
         }

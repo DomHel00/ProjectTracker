@@ -13,10 +13,22 @@ final class ProjectsViewController: UIViewController {
     
     private var fetchController: NSFetchedResultsController<Project>!
     private let database = CoreDataManager.shared
-
+    
+    private var sortType: Int = UserDefaultsManager.shared.loadValue(for: .sortType) {
+        didSet {
+            initFetchController(filterString: searchText)
+        }
+    }
+    
+    private var orderType: Int = UserDefaultsManager.shared.loadValue(for: .orderType) {
+        didSet {
+            initFetchController(filterString: searchText)
+        }
+    }
+    
     private var searchText: String? {
         didSet {
-            initFetchController(sortType: "", filterString: searchText)
+            initFetchController(filterString: searchText)
         }
     }
     
@@ -42,6 +54,11 @@ final class ProjectsViewController: UIViewController {
         return searchBar
     }()
     
+    private let menuButton: UIBarButtonItem = {
+        let menuButton = UIBarButtonItem(title: "Select sort type", image: UIImage(systemName: "arrow.up.arrow.down"))
+        return menuButton
+    }()
+
     override func viewDidDisappear(_ animated: Bool) {
         searchText = nil
         searchBar.text = nil
@@ -55,7 +72,6 @@ final class ProjectsViewController: UIViewController {
             projectsTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             projectsTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
-        
         
         var noProjectsTableViewDataVIewSize: CGFloat = 0
         
@@ -96,16 +112,17 @@ final class ProjectsViewController: UIViewController {
         title = "My projects"
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add new project", image: UIImage(systemName: "plus"), target: self, action: #selector(didTapRightBarButtonItem))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Select sort type", image: UIImage(systemName: "arrow.up.arrow.down"), target: self, action: #selector(didTapLeftBarButtonItem))
+        navigationItem.leftBarButtonItem = menuButton
+        menuButton.menu = createMenu()
         
-        initFetchController(sortType: "", filterString: searchText)
-
+        initFetchController(filterString: searchText)
+        
         projectsTableView.tableHeaderView = searchBar
         
         projectsTableView.dataSource = self
         projectsTableView.delegate = self
         searchBar.delegate = self
-
+        
         view.addSubview(projectsTableView)
     }
     
@@ -116,16 +133,75 @@ final class ProjectsViewController: UIViewController {
         }
     }
     
-    @objc private func didTapLeftBarButtonItem() {
+    private func createMenu() -> UIMenu {
+        var orderActions = [UIAction]()
         
+        for orderType in OrderType.allCases {
+            let orderAction = UIAction(title: "\(orderType.title)") { _ in
+                DispatchQueue.main.async {
+                    self.orderType = orderType.rawValue
+                    UserDefaultsManager.shared.setValue(for: .orderType, value: orderType.rawValue)
+                    self.updateMenu()
+                }           
+            }
+            
+            if self.orderType == orderType.rawValue {
+                orderAction.state = .on
+            }
+            else {
+                orderAction.state = .off
+            }
+            orderActions.append(orderAction)
+        }
+        
+        
+        
+        let orderMenu = UIMenu(title: "Order type", options: .displayInline,children: orderActions)
+        
+        var sortActions = [UIAction]()
+        
+        for sortType in SortType.allCases {
+            let action = UIAction(title: sortType.title) { _ in
+                DispatchQueue.main.async {
+                    self.sortType = sortType.rawValue
+                    UserDefaultsManager.shared.setValue(for: .sortType, value: sortType.rawValue)
+                    self.updateMenu()
+                }
+            }
+            
+            if self.sortType == sortType.rawValue {
+                action.state = .on
+            }
+            else {
+                action.state = .off
+            }
+            sortActions.append(action)
+        }
+        
+        var allActions: [UIMenuElement] = []
+        allActions.append(contentsOf: sortActions)
+        allActions.append(orderMenu)
+        let sortMenu = UIMenu(title: "Sort type", options: .displayInline, children: allActions)
+        return sortMenu
     }
     
-    private func initFetchController(sortType: String, filterString: String?) {
+    private func updateMenu() {
+        menuButton.menu = createMenu()
+    }
+    
+    private func initFetchController(filterString: String?) {
         let request = Project.fetchRequest() as NSFetchRequest<Project>
-        let titleSort = NSSortDescriptor(key: #keyPath(Project.projectTitle), ascending: true)
-        let dateSort = NSSortDescriptor(key: #keyPath(Project.creationDate), ascending: true)
-
-        request.sortDescriptors = [titleSort, dateSort]
+        
+        let selectedSortType = SortType(rawValue: self.sortType)!
+        let selectedOrderType = OrderType(rawValue: self.orderType)!
+        
+        let sortDescriptors = [
+            NSSortDescriptor(key: selectedSortType.sortDescriptorKey, ascending: selectedOrderType.ascendingBoolValue),
+            NSSortDescriptor(key: #keyPath(Project.creationDate), ascending: selectedOrderType.ascendingBoolValue)
+        ]
+                
+        request.sortDescriptors = sortDescriptors
+        
         if let filterString = filterString {
             if filterString != "" {
                 request.predicate = NSPredicate(format: "projectTitle CONTAINS[c] %@", filterString)
