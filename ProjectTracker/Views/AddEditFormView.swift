@@ -354,12 +354,10 @@ final class AddEditFormView: UIView {
         projectIconButton.setTitle("Edit project icon", for: .normal)
         
         projectPriorityLabel.text = "Edit project priority"
-        let priorityIndex = ProjectPriority.allTitles.firstIndex(of: project.projectPriority) ?? 0
-        projectPrioritySegmentedControl.selectedSegmentIndex = priorityIndex
+        projectPrioritySegmentedControl.selectedSegmentIndex = Int(project.projectPriorityIndex)
         
         projectProgressLabel.text = "Edit project progress"
-        let progressIndex = ProjectProgress.allTitles.firstIndex(of: project.projectProgress) ?? 0
-        projectProgressSegmentedControl.selectedSegmentIndex = progressIndex
+        projectProgressSegmentedControl.selectedSegmentIndex = Int(project.projectProgressIndex)
         
         projectURLLabel.text = "Edit project url (optional)"
         projectURLTextField.placeholder = "Edit project url"
@@ -383,14 +381,15 @@ final class AddEditFormView: UIView {
         if let urlString = projectURLTextField.text {
             if urlString.isValidURL {
                 let projectURL = URL(string: urlString)
-                return ProjectModel(projectTitle: trimmedTitleText, projectDescription: projectDescriptionTextView.text, projectPriority: ProjectPriority.allTitles[projectPrioritySegmentedControl.selectedSegmentIndex], projectProgress: ProjectProgress.allTitles[projectProgressSegmentedControl.selectedSegmentIndex], creationDate: .now, icon: projectIconImageView.image?.pngData(), projectURL: projectURL)
+                return ProjectModel(projectTitle: trimmedTitleText, projectDescription: projectDescriptionTextView.text, projectPriority: ProjectPriority(rawValue: projectPrioritySegmentedControl.selectedSegmentIndex) ?? .none, projectProgress: ProjectProgress(rawValue: projectProgressSegmentedControl.selectedSegmentIndex) ?? .initialization, creationDate: .now, icon: projectIconImageView.image?.pngData(), projectURL: projectURL)
             }
             else {
-                return ProjectModel(projectTitle: trimmedTitleText, projectDescription: projectDescriptionTextView.text, projectPriority: ProjectPriority.allTitles[projectPrioritySegmentedControl.selectedSegmentIndex], projectProgress: ProjectProgress.allTitles[projectProgressSegmentedControl.selectedSegmentIndex], creationDate: .now, icon: projectIconImageView.image?.pngData(), projectURL: nil)
+                
+                return ProjectModel(projectTitle: trimmedTitleText, projectDescription: projectDescriptionTextView.text, projectPriority: ProjectPriority(rawValue: projectPrioritySegmentedControl.selectedSegmentIndex) ?? .none, projectProgress: ProjectProgress(rawValue: projectProgressSegmentedControl.selectedSegmentIndex) ?? .initialization, creationDate: .now, icon: projectIconImageView.image?.pngData(), projectURL: nil)
             }
         }
         else {
-            return ProjectModel(projectTitle: trimmedTitleText, projectDescription: projectDescriptionTextView.text, projectPriority: ProjectPriority.allTitles[projectPrioritySegmentedControl.selectedSegmentIndex], projectProgress: ProjectProgress.allTitles[projectProgressSegmentedControl.selectedSegmentIndex], creationDate: .now, icon: projectIconImageView.image?.pngData(), projectURL: nil)
+            return ProjectModel(projectTitle: trimmedTitleText, projectDescription: projectDescriptionTextView.text, projectPriority: ProjectPriority(rawValue: projectPrioritySegmentedControl.selectedSegmentIndex) ?? .none, projectProgress: ProjectProgress(rawValue: projectProgressSegmentedControl.selectedSegmentIndex) ?? .initialization, creationDate: .now, icon: projectIconImageView.image?.pngData(), projectURL: nil)
         }
     }
     
