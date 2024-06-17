@@ -7,16 +7,29 @@
 
 import Foundation
 
-enum ProjectProgress: String, CaseIterable {
-   case initialization = "Initialization"
-   case inDevelopment = "In development"
-   case interrupt = "Interrupt"
-   case completed = "Completed"
+enum ProjectProgress: Int, CaseIterable {
+    case initialization = 0
+    case inDevelopment = 1
+    case interrupt = 2
+    case completed = 3
+    
+    var title: String {
+        switch self {
+        case .initialization:
+            return "Initialization"
+        case .inDevelopment:
+            return "In development"
+        case .interrupt:
+            return "Interrupt"
+        case .completed:
+            return "Completed"
+        }
+    }
     
     static var allTitles: [String] {
         var titles = [String]()
         for projectProgress in ProjectProgress.allCases {
-            titles.append(projectProgress.rawValue)
+            titles.append(projectProgress.title)
         }
         return titles
     }
