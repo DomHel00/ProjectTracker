@@ -7,16 +7,29 @@
 
 import Foundation
 
-enum ProjectPriority: String, CaseIterable {
-    case none = "None"
-    case low = "Low"
-    case normal = "Normal"
-    case high = "High"
+enum ProjectPriority: Int, CaseIterable {
+    case none = 0
+    case low = 1
+    case normal = 2
+    case high = 3
+    
+    var title: String {
+        switch self {
+        case .none:
+            return "None"
+        case .low:
+            return "Low"
+        case .normal:
+            return "Normal"
+        case .high:
+            return "High"
+        }
+    }
     
     static var allTitles: [String] {
         var titles = [String]()
         for projectPriority in ProjectPriority.allCases {
-            titles.append(projectPriority.rawValue)
+            titles.append(projectPriority.title)
         }
         return titles
     }
