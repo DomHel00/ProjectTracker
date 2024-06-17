@@ -224,8 +224,8 @@ final class ProjectDetailView: UIView {
             projectDescriptionLabel.text = "-"
         }
         projectIconImageView.image = UIImage(data: project.icon!)
-        projectPriorityLabel.text = "Priority\n\(project.projectPriority)"
-        projectProgressLabel.text = "Progress\n\(project.projectProgress)"
+        projectPriorityLabel.text = "Priority\n\(project.projectPriority.title)"
+        projectProgressLabel.text = "Progress\n\(project.projectProgress.title)"
         projectCreationDateLabel.text = "Creation date\n\(project.creationDate.formatted(date: .numeric, time: .omitted))"
         if project.projectURL != nil {
             projectURLLabel.text = "Project URL: \(project.projectURL?.absoluteString ?? "-")"
