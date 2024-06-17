@@ -138,10 +138,10 @@ final class ProjectsViewController: UIViewController {
         
         for orderType in OrderType.allCases {
             let orderAction = UIAction(title: "\(orderType.title)") { _ in
-                DispatchQueue.main.async {
-                    self.orderType = orderType.rawValue
+                DispatchQueue.main.async { [weak self] in
+                    self?.orderType = orderType.rawValue
                     UserDefaultsManager.shared.setValue(for: .orderType, value: orderType.rawValue)
-                    self.updateMenu()
+                    self?.updateMenu()
                 }           
             }
             
@@ -162,10 +162,10 @@ final class ProjectsViewController: UIViewController {
         
         for sortType in SortType.allCases {
             let action = UIAction(title: sortType.title) { _ in
-                DispatchQueue.main.async {
-                    self.sortType = sortType.rawValue
+                DispatchQueue.main.async { [weak self] in
+                    self?.sortType = sortType.rawValue
                     UserDefaultsManager.shared.setValue(for: .sortType, value: sortType.rawValue)
-                    self.updateMenu()
+                    self?.updateMenu()
                 }
             }
             
