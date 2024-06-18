@@ -1,0 +1,82 @@
+//  MARK: ProjectPriority file
+"None" = "Žádná";
+"Low" = "Nízká";
+"Normal" = "Střední";
+"High" = "Vysoká";
+
+//  MARK: ProjectProgress file
+"Initialization" = "Inicializace";
+"In development" = "Ve vývoji";
+"Interrupt" = "Přerušeno";
+"Completed" = "Dokončeno";
+
+//  MARK: OrderType file
+"Ascending" = "Vzestupně";
+"Descending" = "Sestupně";
+
+//  MARK: SortType file
+"By title" = "Dle názvu";
+"By priority" = "Dle priority";
+"By progress" = "Dle progresu";
+"By creation date" = "Dle data vytvoření";
+
+//  MARK: ProjectsViewController file
+"Search..." = "Vyhledat...";
+"Select sort type" = "Vyberte si styl řazení";
+"My projects" = "Mé projekty";
+"Add new project" = "Přidat nový projekt";
+"Order type" = "Typ řezení";
+"Sort type" = "Typ třídění";
+"Delete" = "Smazat";
+"Edit" = "Upravit";
+
+//  MARK: ProjectDetailViewController file
+"Project detail" = "Detail projektu";
+
+//  MARK: AddProjectViewController file
+"Warning" = "Varování";
+"Title textfield cannot be empty!" = "Pole názvu projektu nemůže být prázdné!";
+"Cancel" = "Zavřít";
+"Add new project" = "Přidání nového projektu";
+"Create" = "Přidat";
+
+//  MARK: EditProjectViewController file
+"Edit project" = "Úprava projektu";
+"Save" = "Uložit";
+
+//  MARK: NoProjectsTableViewDataVIew file
+"No projects yet!" = "Zatím žádné projekty!";
+
+//  MARK: ProjectDetailView file
+"Open link" = "Otevřít odkaz";
+"Priority" = "Priorita";
+"Progress" = "Progres";
+"Creation date" = "Datum vytvoření";
+"Project URL:" = "URL projektu:";
+"No URL has been added for this project!" = "Pro tento projekt nebyla přidána žádná adresa URL!";
+
+//  MARK: ProjectTableViewCell file
+"Priority: " = "Priorita: ";
+"Progress: " = "Progres: ";
+"Creation date: " = "Vytvořeno: ";
+
+//  MARK: AddEditFormViewDelegate file
+"Set project title" = "Nastavte název projektu";
+"Set project description (optional)" = "Nastavte popis projektu (nepovinné)";
+"Set project icon (optional)" = "Nastavte ikonu projektu (nepovinné)";
+"Set project icon" = "Nastavit ikonu projektu";
+"Set project priority" = "Nastavte prioritu projektu";
+"Set project progress" = "Nastavte progres projektu";
+"Set project URL (optional)" = "Nastavte URL projektu (nepovinné)";
+"Set project URL" = "Nastavte URL projektu";
+"Edit project title" = "Upravte název projektu";
+"Edit project description (optional)" = "Upravte popis projektu (nepovinné)";
+"Edit project icon (optional)" = "Upravte ikonu projektu (nepovinné)";
+"Edit project icon" = "Upravte ikonu projektu";
+"Edit project priority" = "Upravte prioritu projektu";
+"Edit project progress" = "Upravte progres projektu";
+"Edit project URL (optional)" = "Upravte URL projektu (nepovinné)";
+"Edit project URL" = "Upravte URL projektu";
+"Done" = "Hotovo";
+"Clear" = "Smazat vše";
+
