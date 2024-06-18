@@ -95,7 +95,7 @@ final class ProjectDetailView: UIView {
     private let openURLButton: UIButton = {
         let openURLButton = UIButton()
         openURLButton.translatesAutoresizingMaskIntoConstraints = false
-        openURLButton.setTitle("Open link", for: .normal)
+        openURLButton.setTitle("Open link".localized(), for: .normal)
         openURLButton.setTitleColor(.label, for: .normal)
         openURLButton.backgroundColor = .systemBackground
         openURLButton.layer.cornerRadius = 8
@@ -224,14 +224,14 @@ final class ProjectDetailView: UIView {
             projectDescriptionLabel.text = "-"
         }
         projectIconImageView.image = UIImage(data: project.icon!)
-        projectPriorityLabel.text = "Priority\n\(project.projectPriority.title)"
-        projectProgressLabel.text = "Progress\n\(project.projectProgress.title)"
-        projectCreationDateLabel.text = "Creation date\n\(project.creationDate.formatted(date: .numeric, time: .omitted))"
+        projectPriorityLabel.text = "Priority".localized() + "\n\(project.projectPriority.title)"
+        projectProgressLabel.text = "Progress".localized() + "\n\(project.projectProgress.title)"
+        projectCreationDateLabel.text = "Creation date".localized() + "\n\(project.creationDate.formatted(date: .numeric, time: .omitted))"
         if project.projectURL != nil {
-            projectURLLabel.text = "Project URL: \(project.projectURL?.absoluteString ?? "-")"
+            projectURLLabel.text = "Project URL:".localized() + " \(project.projectURL?.absoluteString ?? "-")"
         }
         else {
-            projectURLLabel.text = "No URL has been added for this project!"
+            projectURLLabel.text = "No URL has been added for this project!".localized()
             openURLButton.isHidden = true
         }
     }

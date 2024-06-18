@@ -14,9 +14,9 @@ enum OrderType: Int, CaseIterable {
     var title: String {
         switch self {
         case .ascending:
-            return "Ascending"
+            return "Ascending".localized()
         case .descending:
-            return "Descending"
+            return "Descending".localized()
         }
     }
     

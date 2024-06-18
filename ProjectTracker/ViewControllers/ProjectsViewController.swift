@@ -48,14 +48,14 @@ final class ProjectsViewController: UIViewController {
     
     private let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
-        searchBar.placeholder = "Search..."
+        searchBar.placeholder = "Search...".localized()
         searchBar.showsCancelButton = true
         searchBar.sizeToFit()
         return searchBar
     }()
     
     private let menuButton: UIBarButtonItem = {
-        let menuButton = UIBarButtonItem(title: "Select sort type", image: UIImage(systemName: "arrow.up.arrow.down"))
+        let menuButton = UIBarButtonItem(title: "Select sort type".localized(), image: UIImage(systemName: "arrow.up.arrow.down"))
         return menuButton
     }()
 
@@ -109,9 +109,9 @@ final class ProjectsViewController: UIViewController {
         view.backgroundColor = .systemBackground
         
         navigationItem.largeTitleDisplayMode = .always
-        title = "My projects"
+        title = "My projects".localized()
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add new project", image: UIImage(systemName: "plus"), target: self, action: #selector(didTapRightBarButtonItem))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add new project".localized(), image: UIImage(systemName: "plus"), target: self, action: #selector(didTapRightBarButtonItem))
         navigationItem.leftBarButtonItem = menuButton
         menuButton.menu = createMenu()
         
@@ -156,7 +156,7 @@ final class ProjectsViewController: UIViewController {
         
         
         
-        let orderMenu = UIMenu(title: "Order type", options: .displayInline,children: orderActions)
+        let orderMenu = UIMenu(title: "Order type".localized(), options: .displayInline,children: orderActions)
         
         var sortActions = [UIAction]()
         
@@ -181,7 +181,7 @@ final class ProjectsViewController: UIViewController {
         var allActions: [UIMenuElement] = []
         allActions.append(contentsOf: sortActions)
         allActions.append(orderMenu)
-        let sortMenu = UIMenu(title: "Sort type", options: .displayInline, children: allActions)
+        let sortMenu = UIMenu(title: "Sort type".localized(), options: .displayInline, children: allActions)
         return sortMenu
     }
     
@@ -258,12 +258,12 @@ extension ProjectsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let selectedProject = fetchController.object(at: indexPath)
         
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] action, view, completion in
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete".localized()) { [weak self] action, view, completion in
             self?.database.deleteObject(selectedProject)
             completion(true)
         }
         
-        let editAction = UIContextualAction(style: .normal, title: "Edit") { [weak self] action, view, completion in
+        let editAction = UIContextualAction(style: .normal, title: "Edit".localized()) { [weak self] action, view, completion in
             self?.coordinator?.pushEditProjectViewController(project: selectedProject)
             completion(true)
         }

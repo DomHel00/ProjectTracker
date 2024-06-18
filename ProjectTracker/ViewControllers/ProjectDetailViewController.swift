@@ -56,7 +56,7 @@ final class ProjectDetailViewController: UIViewController {
         view.backgroundColor = .systemBackground
         
         navigationItem.largeTitleDisplayMode = .never
-        title = "Project detail"
+        title = "Project detail".localized()
         
         view.addSubview(contentScrollView)
         contentScrollView.addSubview(projectDetailView)

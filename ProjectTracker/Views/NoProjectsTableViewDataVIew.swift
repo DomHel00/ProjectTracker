@@ -20,7 +20,7 @@ final class NoProjectsTableViewDataVIew: UIView {
     private let titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.text = "No data yet!"
+        titleLabel.text = "No projects yet!".localized()
         titleLabel.textAlignment = .center
         titleLabel.textColor = .label
         titleLabel.font = .preferredFont(forTextStyle: .headline)

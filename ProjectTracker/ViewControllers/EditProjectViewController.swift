@@ -27,8 +27,8 @@ final class EditProjectViewController: UIViewController {
     }()
     
     private let alertController: UIAlertController = {
-        let alertController = UIAlertController(title: "Error", message: "Title connot be empty!", preferredStyle: .alert)
-        alertController.addAction(.init(title: "Cancel", style: .cancel))
+        let alertController = UIAlertController(title: "Warning".localized(), message: "Title textfield cannot be empty!".localized(), preferredStyle: .alert)
+        alertController.addAction(.init(title: "Cancel".localized(), style: .cancel))
         return alertController
     }()
     
@@ -67,8 +67,8 @@ final class EditProjectViewController: UIViewController {
         view.backgroundColor = .systemBackground
         
         navigationItem.largeTitleDisplayMode = .never
-        title = "Edit project"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", image: nil, target: self, action: #selector(didTapSaveButton))
+        title = "Edit project".localized()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save".localized(), image: nil, target: self, action: #selector(didTapSaveButton))
         
         contentFormView.configureUIEditMode(for: project)
         contentFormView.delegate = self

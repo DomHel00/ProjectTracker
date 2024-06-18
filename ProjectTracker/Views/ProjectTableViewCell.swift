@@ -95,6 +95,6 @@ final class ProjectTableViewCell: UITableViewCell {
             projectImageView.image = UIImage(named: "icon")
         }
         projectTitleLabel.text = project.projectTitle
-        projectDetailsLabel.text = "Priority: \(project.projectPriority.title)\nProgress: \(project.projectProgress.title)\nCreation date: \(project.creationDate.formatted(date: .numeric, time: .omitted))"
+        projectDetailsLabel.text = "Priority: ".localized() + "\(project.projectPriority.title)\n" + "Progress: ".localized() + "\(project.projectProgress.title)\n" + "Creation date: ".localized() + "\(project.creationDate.formatted(date: .numeric, time: .omitted))"
     }
 }

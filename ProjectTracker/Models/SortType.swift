@@ -16,13 +16,13 @@ enum SortType: Int, CaseIterable {
     var title: String {
         switch self {
         case .byTitle:
-            return "By title"
+            return "By title".localized()
         case .byPriority:
-            return "By priority"
+            return "By priority".localized()
         case .byProgress:
-            return "By progress"
+            return "By progress".localized()
         case .byCreationDate:
-            return "By creation date"
+            return "By creation date".localized()
         }
     }
     

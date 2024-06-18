@@ -16,13 +16,13 @@ enum ProjectPriority: Int, CaseIterable {
     var title: String {
         switch self {
         case .none:
-            return "None"
+            return "None".localized()
         case .low:
-            return "Low"
+            return "Low".localized()
         case .normal:
-            return "Normal"
+            return "Normal".localized()
         case .high:
-            return "High"
+            return "High".localized()
         }
     }
     

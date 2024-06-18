@@ -322,25 +322,25 @@ final class AddEditFormView: UIView {
     }
     
     public func configureUIAddMode() {
-        projectTitleLabel.text = "Set project title"
-        projectTitleTextField.placeholder = "Set project title"
-        projectDescriptionLabel.text = "Set project description (optional)"
-        projectIconLabel.text = "Set project icon (optional)"
+        projectTitleLabel.text = "Set project title".localized()
+        projectTitleTextField.placeholder = "Set project title".localized()
+        projectDescriptionLabel.text = "Set project description (optional)".localized()
+        projectIconLabel.text = "Set project icon (optional)".localized()
         projectIconImageView.image = UIImage(named: "icon")
-        projectIconButton.setTitle("Set project icon", for: .normal)
-        projectPriorityLabel.text = "Set project priority"
+        projectIconButton.setTitle("Set project icon".localized(), for: .normal)
+        projectPriorityLabel.text = "Set project priority".localized()
         projectPrioritySegmentedControl.selectedSegmentIndex = 0
-        projectProgressLabel.text = "Set project progress"
+        projectProgressLabel.text = "Set project progress".localized()
         projectProgressSegmentedControl.selectedSegmentIndex = 0
-        projectURLLabel.text = "Set project url (optional)"
-        projectURLTextField.placeholder = "Set project url"
+        projectURLLabel.text = "Set project URL (optional)".localized()
+        projectURLTextField.placeholder = "Set project URL".localized()
     }
     
     public func configureUIEditMode(for project: Project) {
-        projectTitleLabel.text = "Edit project title"
-        projectTitleTextField.placeholder = "Edit project title"
-        projectDescriptionLabel.text = "Edit project description (optional)"
-        projectIconLabel.text = "Edit project icon (optional)"
+        projectTitleLabel.text = "Edit project title".localized()
+        projectTitleTextField.placeholder = "Edit project title".localized()
+        projectDescriptionLabel.text = "Edit project description (optional)".localized()
+        projectIconLabel.text = "Edit project icon (optional)".localized()
         projectTitleTextField.text = project.projectTitle
         projectDescriptionTextView.text = project.projectDescription
         
@@ -351,16 +351,16 @@ final class AddEditFormView: UIView {
             projectIconImageView.image = UIImage(named: "icon")
         }
         
-        projectIconButton.setTitle("Edit project icon", for: .normal)
+        projectIconButton.setTitle("Edit project icon".localized(), for: .normal)
         
-        projectPriorityLabel.text = "Edit project priority"
+        projectPriorityLabel.text = "Edit project priority".localized()
         projectPrioritySegmentedControl.selectedSegmentIndex = Int(project.projectPriorityIndex)
         
-        projectProgressLabel.text = "Edit project progress"
+        projectProgressLabel.text = "Edit project progress".localized()
         projectProgressSegmentedControl.selectedSegmentIndex = Int(project.projectProgressIndex)
         
-        projectURLLabel.text = "Edit project url (optional)"
-        projectURLTextField.placeholder = "Edit project url"
+        projectURLLabel.text = "Edit project URL (optional)".localized()
+        projectURLTextField.placeholder = "Edit project URL".localized()
         
         if let savedURL = project.projectURL {
             projectURLTextField.text = savedURL.absoluteString
@@ -397,8 +397,8 @@ final class AddEditFormView: UIView {
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
         
-        let btnDoneOnKeyboard = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(hideKeyboard))
-        let btnClearOnKeyboard = UIBarButtonItem(title: "Clear", style: .plain, target: self, action: #selector(clearTextField))
+        let btnDoneOnKeyboard = UIBarButtonItem(title: "Done".localized(), style: .done, target: self, action: #selector(hideKeyboard))
+        let btnClearOnKeyboard = UIBarButtonItem(title: "Clear".localized(), style: .plain, target: self, action: #selector(clearTextField))
         btnClearOnKeyboard.tintColor = .systemRed
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         

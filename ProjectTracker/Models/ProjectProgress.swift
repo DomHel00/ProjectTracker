@@ -16,13 +16,13 @@ enum ProjectProgress: Int, CaseIterable {
     var title: String {
         switch self {
         case .initialization:
-            return "Initialization"
+            return "Initialization".localized()
         case .inDevelopment:
-            return "In development"
+            return "In development".localized()
         case .interrupt:
-            return "Interrupt"
+            return "Interrupt".localized()
         case .completed:
-            return "Completed"
+            return "Completed".localized()
         }
     }
     
