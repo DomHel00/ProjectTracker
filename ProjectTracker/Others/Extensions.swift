@@ -14,3 +14,9 @@ extension String {
         return predicate.evaluate(with: self)
     }
 }
+
+extension String {
+    func localized() -> String {
+        return NSLocalizedString(self, tableName: "Localizable", bundle: .main, value: self, comment: self)
+    }
+}
