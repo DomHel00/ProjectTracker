@@ -262,11 +262,16 @@ extension ProjectsViewController: UITableViewDataSource, UITableViewDelegate {
             self?.database.deleteObject(selectedProject)
             completion(true)
         }
+        deleteAction.image = UIImage(systemName: "trash.fill")
+        
         
         let editAction = UIContextualAction(style: .normal, title: "Edit".localized()) { [weak self] action, view, completion in
             self?.coordinator?.pushEditProjectViewController(project: selectedProject)
             completion(true)
         }
+        editAction.backgroundColor = .systemOrange
+        editAction.image = UIImage(systemName: "pencil")
+        
         return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
     }
     
