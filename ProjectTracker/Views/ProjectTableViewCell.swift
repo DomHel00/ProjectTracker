@@ -16,6 +16,7 @@ final class ProjectTableViewCell: UITableViewCell {
         projectImageView.contentMode = .scaleAspectFill
         projectImageView.clipsToBounds = true
         projectImageView.layer.cornerRadius = 8
+        projectImageView.isAccessibilityElement = false
         return projectImageView
     }()
     
@@ -88,6 +89,9 @@ final class ProjectTableViewCell: UITableViewCell {
     }
     
     public func configureUI(with project: Project) {
+        self.accessibilityLabel = "Project: ".localized() + project.projectTitle + ", " + "Project priority: ".localized() + "\(project.projectPriority.title)," + "Project progress: ".localized() + "\(project.projectProgress.title)," + "Project creation date: ".localized() + "\(project.creationDate.formatted(date: .numeric, time: .omitted))"
+        self.accessibilityHint = "To see the project details, double tap.".localized()
+        
         if let icon = project.icon {
             projectImageView.image = UIImage(data: icon)
         }
