@@ -58,9 +58,11 @@ final class AddProjectViewController: UIViewController {
         view.backgroundColor = .systemBackground
         
         navigationItem.largeTitleDisplayMode = .never
-        title = "Add new project".localized()
+        title = "New project".localized()
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create".localized(), image: nil, target: self, action: #selector(didTapCreateButton))
-        
+        navigationItem.rightBarButtonItem?.accessibilityLabel = "Create project".localized()
+        navigationItem.rightBarButtonItem?.accessibilityHint = "To create a new project, double tap.".localized()
+
         contentFormView.configureUIAddMode()
         contentFormView.delegate = self
         

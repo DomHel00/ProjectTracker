@@ -69,7 +69,9 @@ final class EditProjectViewController: UIViewController {
         navigationItem.largeTitleDisplayMode = .never
         title = "Edit project".localized()
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save".localized(), image: nil, target: self, action: #selector(didTapSaveButton))
-        
+        navigationItem.rightBarButtonItem?.accessibilityLabel = "Save changes".localized()
+        navigationItem.rightBarButtonItem?.accessibilityHint = "To save your changes, double tap.".localized()
+
         contentFormView.configureUIEditMode(for: project)
         contentFormView.delegate = self
         

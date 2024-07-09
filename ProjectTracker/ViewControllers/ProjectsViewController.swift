@@ -115,6 +115,9 @@ final class ProjectsViewController: UIViewController {
         navigationItem.leftBarButtonItem = menuButton
         menuButton.menu = createMenu()
         
+        navigationItem.leftBarButtonItem?.accessibilityHint = "To see the options, double tap.".localized()
+        navigationItem.rightBarButtonItem?.accessibilityHint = "To see the form to add a new project, double tap.".localized()
+
         initFetchController(filterString: searchText)
         
         projectsTableView.tableHeaderView = searchBar
@@ -154,10 +157,8 @@ final class ProjectsViewController: UIViewController {
             orderActions.append(orderAction)
         }
         
-        
-        
         let orderMenu = UIMenu(title: "Order type".localized(), options: .displayInline,children: orderActions)
-        
+
         var sortActions = [UIAction]()
         
         for sortType in SortType.allCases {
@@ -263,7 +264,8 @@ extension ProjectsViewController: UITableViewDataSource, UITableViewDelegate {
             completion(true)
         }
         deleteAction.image = UIImage(systemName: "trash.fill")
-        
+        deleteAction.accessibilityLabel = "Delete the project".localized()
+        deleteAction.accessibilityHint = "To delete the project, double tap.".localized()
         
         let editAction = UIContextualAction(style: .normal, title: "Edit".localized()) { [weak self] action, view, completion in
             self?.coordinator?.pushEditProjectViewController(project: selectedProject)
@@ -271,7 +273,9 @@ extension ProjectsViewController: UITableViewDataSource, UITableViewDelegate {
         }
         editAction.backgroundColor = .systemOrange
         editAction.image = UIImage(systemName: "pencil")
-        
+        editAction.accessibilityLabel = "Edit the project".localized()
+        editAction.accessibilityHint = "To edit the project, double tap.".localized()
+
         return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
     }
     
