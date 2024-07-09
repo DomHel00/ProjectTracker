@@ -19,6 +19,7 @@ final class AddEditFormView: UIView {
     private let projectTitleLabel: UILabel = {
         let projectTitleLabel = UILabel()
         projectTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        projectTitleLabel.isAccessibilityElement = false
         projectTitleLabel.font = .preferredFont(forTextStyle: .headline)
         projectTitleLabel.textAlignment = .left
         projectTitleLabel.textColor = .label
@@ -39,6 +40,7 @@ final class AddEditFormView: UIView {
     private let projectDescriptionLabel: UILabel = {
         let projectDescriptionLabel = UILabel()
         projectDescriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        projectDescriptionLabel.isAccessibilityElement = false
         projectDescriptionLabel.font = .preferredFont(forTextStyle: .headline)
         projectDescriptionLabel.textAlignment = .left
         projectDescriptionLabel.textColor = .label
@@ -58,6 +60,7 @@ final class AddEditFormView: UIView {
     private let projectIconLabel: UILabel = {
         let projectIconLabel = UILabel()
         projectIconLabel.translatesAutoresizingMaskIntoConstraints = false
+        projectIconLabel.isAccessibilityElement = false
         projectIconLabel.font = .preferredFont(forTextStyle: .headline)
         projectIconLabel.textAlignment = .left
         projectIconLabel.textColor = .label
@@ -78,6 +81,7 @@ final class AddEditFormView: UIView {
     private let projectIconButton: UIButton = {
         let projectIconButton = UIButton()
         projectIconButton.translatesAutoresizingMaskIntoConstraints = false
+        projectIconButton.isAccessibilityElement = false
         projectIconButton.setTitleColor(.label, for: .normal)
         projectIconButton.backgroundColor = .systemBackground
         projectIconButton.layer.cornerRadius = 8
@@ -119,6 +123,7 @@ final class AddEditFormView: UIView {
     private let projectURLLabel: UILabel = {
         let projectURLLabel = UILabel()
         projectURLLabel.translatesAutoresizingMaskIntoConstraints = false
+        projectURLLabel.isAccessibilityElement = false
         projectURLLabel.font = .preferredFont(forTextStyle: .headline)
         projectURLLabel.textAlignment = .left
         projectURLLabel.textColor = .label
@@ -157,6 +162,10 @@ final class AddEditFormView: UIView {
         addSubview(projectURLTextField)
         projectIconButton.addTarget(self, action: #selector(showPhotoPicker), for: .touchUpInside)
         addToolbarToKeyboard()
+        NotificationCenter.default.addObserver(self, selector: #selector(updateTextFieldPlaceholdersForVoiceOver), name: UIAccessibility.voiceOverStatusDidChangeNotification, object: nil)
+        projectTitleTextField.delegate = self
+        projectURLTextField.delegate = self
+        projectDescriptionTextView.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -179,6 +188,17 @@ final class AddEditFormView: UIView {
             NSLayoutConstraint.activate(compactConstraints!)
         default:
             break
+        }
+    }
+    
+    @objc private func updateTextFieldPlaceholdersForVoiceOver() {
+        if UIAccessibility.isVoiceOverRunning {
+            projectTitleTextField.placeholder = nil
+            projectURLTextField.placeholder = nil
+        }
+        else {
+            projectTitleTextField.placeholder = projectTitleTextField.accessibilityLabel
+            projectURLTextField.placeholder = projectURLTextField.accessibilityLabel
         }
     }
     
@@ -323,26 +343,51 @@ final class AddEditFormView: UIView {
     
     public func configureUIAddMode() {
         projectTitleLabel.text = "Set project title".localized()
+        
         projectTitleTextField.placeholder = "Set project title".localized()
+        projectTitleTextField.accessibilityLabel = "Set project title".localized()
+        
         projectDescriptionLabel.text = "Set project description (optional)".localized()
+        
+        projectDescriptionTextView.accessibilityLabel = "Set project description (optional)".localized()
+
         projectIconLabel.text = "Set project icon (optional)".localized()
+        
         projectIconImageView.image = UIImage(named: "icon")
+        
         projectIconButton.setTitle("Set project icon".localized(), for: .normal)
+        
         projectPriorityLabel.text = "Set project priority".localized()
+        
         projectPrioritySegmentedControl.selectedSegmentIndex = 0
+        
         projectProgressLabel.text = "Set project progress".localized()
+        
         projectProgressSegmentedControl.selectedSegmentIndex = 0
+        
         projectURLLabel.text = "Set project URL (optional)".localized()
-        projectURLTextField.placeholder = "Set project URL".localized()
+        
+        projectURLTextField.placeholder = "Set project URL (optional)".localized()
+        projectURLTextField.accessibilityLabel = "Set project URL (optional)".localized()
+        
+        updateTextFieldPlaceholdersForVoiceOver()
     }
     
     public func configureUIEditMode(for project: Project) {
         projectTitleLabel.text = "Edit project title".localized()
-        projectTitleTextField.placeholder = "Edit project title".localized()
-        projectDescriptionLabel.text = "Edit project description (optional)".localized()
-        projectIconLabel.text = "Edit project icon (optional)".localized()
+        
         projectTitleTextField.text = project.projectTitle
+        projectTitleTextField.placeholder = "Edit project title".localized()
+        projectTitleTextField.accessibilityLabel = "Edit project title".localized()
+        projectTitleTextField.accessibilityValue = project.projectTitle
+        
+        projectDescriptionLabel.text = "Edit project description (optional)".localized()
+        
         projectDescriptionTextView.text = project.projectDescription
+        projectDescriptionTextView.accessibilityLabel = "Edit project description (optional)".localized()
+        projectDescriptionTextView.accessibilityValue = project.projectDescription
+
+        projectIconLabel.text = "Edit project icon (optional)".localized()
         
         if let savedImage = project.icon {
             projectIconImageView.image = UIImage(data: savedImage)
@@ -354,17 +399,24 @@ final class AddEditFormView: UIView {
         projectIconButton.setTitle("Edit project icon".localized(), for: .normal)
         
         projectPriorityLabel.text = "Edit project priority".localized()
+        
         projectPrioritySegmentedControl.selectedSegmentIndex = Int(project.projectPriorityIndex)
         
         projectProgressLabel.text = "Edit project progress".localized()
+        
         projectProgressSegmentedControl.selectedSegmentIndex = Int(project.projectProgressIndex)
         
         projectURLLabel.text = "Edit project URL (optional)".localized()
-        projectURLTextField.placeholder = "Edit project URL".localized()
         
+        projectURLTextField.placeholder = "Edit project URL".localized()
+        projectURLTextField.accessibilityLabel = "Edit project URL (optional)".localized()
+
         if let savedURL = project.projectURL {
             projectURLTextField.text = savedURL.absoluteString
+            projectURLTextField.accessibilityValue = savedURL.absoluteString
         }
+        
+        updateTextFieldPlaceholdersForVoiceOver()
     }
     
     public func createProject() -> ProjectModel? {
@@ -402,6 +454,9 @@ final class AddEditFormView: UIView {
         btnClearOnKeyboard.tintColor = .systemRed
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         
+        btnDoneOnKeyboard.accessibilityHint = "To stop editing and hide the keyboard, double tap.".localized()
+        btnClearOnKeyboard.accessibilityHint = "To delete text in the field, double tap.".localized()
+        
         toolbar.items = [btnClearOnKeyboard, flexSpace, btnDoneOnKeyboard]
         
         projectTitleTextField.inputAccessoryView = toolbar
@@ -431,5 +486,24 @@ final class AddEditFormView: UIView {
         else if projectURLTextField.isFirstResponder {
             projectURLTextField.text = nil
         }
+    }
+}
+
+extension AddEditFormView: UITextFieldDelegate {
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        if projectTitleTextField.isFirstResponder {
+            projectTitleTextField.accessibilityValue = textField.text
+        }
+        
+        if projectURLTextField.isFirstResponder {
+            projectURLTextField.accessibilityValue = textField.text
+        }
+    }
+    
+}
+
+extension AddEditFormView: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        projectDescriptionTextView.accessibilityValue = textView.text
     }
 }
