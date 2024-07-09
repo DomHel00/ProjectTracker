@@ -31,6 +31,8 @@ final class NoProjectsTableViewDataVIew: UIView {
         super.init(frame: frame)
         addSubview(iconImageView)
         addSubview(titleLabel)
+        self.isAccessibilityElement = true
+        self.accessibilityLabel = "No projects yet!".localized()
     }
     
     required init?(coder: NSCoder) {
