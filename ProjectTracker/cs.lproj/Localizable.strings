@@ -25,10 +25,16 @@
 "Select sort type" = "Vyberte si styl řazení";
 "My projects" = "Mé projekty";
 "Add new project" = "Přidat nový projekt";
-"Order type" = "Typ řezení";
+"Order type" = "Typ řazení";
 "Sort type" = "Typ třídění";
 "Delete" = "Smazat";
 "Edit" = "Upravit";
+"To see the options, double tap." = "Chcete-li zobrazit možnosti, poklepejte.";
+"To see the form to add a new project, double tap." = "Chcete-li zobrazit formulář pro přidání nového projektu, poklepejte.";
+"Delete the project" = "Smazat projekt";
+"Edit the project" = "Upravit projekt";
+"To delete the project, double tap." = "Chcete-li smazat projekt, poklepejte.";
+"To edit the project, double tap." = "Chcete-li upravit projekt, poklepejte.";
 
 //  MARK: ProjectDetailViewController file
 "Project detail" = "Detail projektu";
@@ -37,12 +43,16 @@
 "Warning" = "Varování";
 "Title textfield cannot be empty!" = "Pole názvu projektu nemůže být prázdné!";
 "Cancel" = "Zavřít";
-"Add new project" = "Přidání nového projektu";
-"Create" = "Přidat";
+"New project" = "Nový projekt";
+"Create" = "Vytvořit";
+"Create project" = "Vytvořit nový projekt";
+"To create a new project, double tap." = "Chcete-li vytvořit nový projekt, poklepejte.";
 
 //  MARK: EditProjectViewController file
 "Edit project" = "Úprava projektu";
 "Save" = "Uložit";
+"Save changes" = "Uložit změny";
+"To save your changes, double tap." = "Chcete-li uložit změny, poklepejte.";
 
 //  MARK: NoProjectsTableViewDataVIew file
 "No projects yet!" = "Zatím žádné projekty!";
@@ -52,13 +62,21 @@
 "Priority" = "Priorita";
 "Progress" = "Progres";
 "Creation date" = "Datum vytvoření";
-"Project URL:" = "URL projektu:";
+"Project URL:" = "URL odkaz projektu:";
 "No URL has been added for this project!" = "Pro tento projekt nebyla přidána žádná adresa URL!";
+"No description!" = "K projektu není přidán žádný popis!";
+"Project description: " = "Popis projektu: ";
+"To open the link in your browser, double tap." = "Chcete-li odkaz otevřít v prohlížeči, poklepejte.";
 
 //  MARK: ProjectTableViewCell file
 "Priority: " = "Priorita: ";
 "Progress: " = "Progres: ";
 "Creation date: " = "Vytvořeno: ";
+"Project: " = "Projekt: ";
+"Project priority: " = "Priorita projektu: ";
+"Project progress: " = "Progres projektu: ";
+"Project creation date: " = "Datum vytvoření projektu: ";
+"To see the project details, double tap." = "Chcete-li zobrazit detaily projektu, poklepejte.";
 
 //  MARK: AddEditFormViewDelegate file
 "Set project title" = "Nastavte název projektu";
@@ -79,4 +97,5 @@
 "Edit project URL" = "Upravte URL projektu";
 "Done" = "Hotovo";
 "Clear" = "Smazat vše";
-
+"To stop editing and hide the keyboard, double tap." = "Chcete-li ukončit editaci a schovat klávesnici, poklepejte.";
+"To delete text in the field, double tap." = "Chcete-li vymazat text v poli, poklepejte.";
