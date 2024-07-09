@@ -102,6 +102,7 @@ final class ProjectDetailView: UIView {
         openURLButton.layer.borderWidth = 0.5
         openURLButton.layer.borderColor = UIColor.label.cgColor
         openURLButton.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        openURLButton.accessibilityHint = "To open the link in your browser, double tap.".localized()
         return openURLButton
     }()
     
@@ -215,18 +216,28 @@ final class ProjectDetailView: UIView {
         if let projectDescription = project.projectDescription {
             if projectDescription == "" {
                 projectDescriptionLabel.text = "-"
+                projectDescriptionLabel.accessibilityLabel = "No description!".localized()
             }
             else {
                 projectDescriptionLabel.text = "\(projectDescription)"
+                projectDescriptionLabel.accessibilityLabel = "Project description: ".localized() + "\(projectDescription)"
             }
         }
         else {
             projectDescriptionLabel.text = "-"
+            projectDescriptionLabel.accessibilityLabel = "No description!".localized()
         }
+        
         projectIconImageView.image = UIImage(data: project.icon!)
         projectPriorityLabel.text = "Priority".localized() + "\n\(project.projectPriority.title)"
+        projectPriorityLabel.accessibilityLabel = "Project priority: ".localized() + "\n\(project.projectPriority.title)"
+
         projectProgressLabel.text = "Progress".localized() + "\n\(project.projectProgress.title)"
+        projectProgressLabel.accessibilityLabel = "Project progress: ".localized() + "\n\(project.projectProgress.title)"
+
         projectCreationDateLabel.text = "Creation date".localized() + "\n\(project.creationDate.formatted(date: .numeric, time: .omitted))"
+        projectCreationDateLabel.accessibilityLabel = "Project creation date: ".localized() + "\n\(project.creationDate.formatted(date: .numeric, time: .omitted))"
+
         if project.projectURL != nil {
             projectURLLabel.text = "Project URL:".localized() + " \(project.projectURL?.absoluteString ?? "-")"
         }
