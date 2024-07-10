@@ -5,14 +5,13 @@
 //  Created by Dominik Hel on 07.04.2024.
 //
 
+// MARK: Imports
 import UIKit
 import CoreData
 
+// MARK: AppDelegate class
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         return true
@@ -76,6 +75,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-
 }
 
