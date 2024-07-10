@@ -6,10 +6,10 @@
 //
 //
 
+// MARK: Imports
 import Foundation
 import CoreData
 
+// MARK: Project class
 @objc(Project)
-public class Project: NSManagedObject {
-
-}
+public class Project: NSManagedObject {}

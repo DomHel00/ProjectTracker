@@ -6,16 +6,19 @@
 //
 //
 
+// MARK: Imports
 import Foundation
 import CoreData
 
 
+// MARK: Project class extension
 extension Project {
-    
+    // MARK: FetchRequest
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Project> {
         return NSFetchRequest<Project>(entityName: "Project")
     }
     
+    // MARK: @NSManaged variables
     @NSManaged public var projectID: UUID
     @NSManaged public var creationDate: Date
     @NSManaged public var icon: Data?
@@ -25,6 +28,7 @@ extension Project {
     @NSManaged public var projectTitle: String
     @NSManaged public var projectURL: URL?
     
+    // MARK: Computed properties
     var projectPriority: ProjectPriority {
         get {
             return ProjectPriority(rawValue: Int(projectPriorityIndex)) ?? .none
@@ -44,6 +48,4 @@ extension Project {
     }
 }
 
-extension Project : Identifiable {
-    
-}
+extension Project : Identifiable {}
