@@ -5,33 +5,44 @@
 //  Created by Dominik Hel on 07.04.2024.
 //
 
+// MARK: Imports
 import UIKit
 import CoreData
 
+// MARK: ProjectsViewController class
 final class ProjectsViewController: UIViewController {
+    // MARK: Constants and variables
     weak var coordinator: MainCoordinator?
     
     private var fetchController: NSFetchedResultsController<Project>!
     private let database = CoreDataManager.shared
     
+    // MARK: Computed properties
+    /// Return saved sort type or default value.
     private var sortType: Int = UserDefaultsManager.shared.loadValue(for: .sortType) {
         didSet {
+            // After get value calls inits initFetchController functions.
             initFetchController(filterString: searchText)
         }
     }
     
+    /// Return saved order type or default value.
     private var orderType: Int = UserDefaultsManager.shared.loadValue(for: .orderType) {
         didSet {
+            // After get value calls inits initFetchController functions.
             initFetchController(filterString: searchText)
         }
     }
     
+    /// Return search text from search bar or nil if is search bar has no value.
     private var searchText: String? {
         didSet {
+            // After get value calls inits initFetchController functions.
             initFetchController(filterString: searchText)
         }
     }
     
+    // MARK: UI components
     private let projectsTableView: UITableView = {
         let projectsTableView = UITableView()
         projectsTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -58,7 +69,8 @@ final class ProjectsViewController: UIViewController {
         let menuButton = UIBarButtonItem(title: "Select sort type".localized(), image: UIImage(systemName: "arrow.up.arrow.down"))
         return menuButton
     }()
-
+    
+    // MARK: Life cycle functions
     override func viewDidDisappear(_ animated: Bool) {
         searchText = nil
         searchBar.text = nil
@@ -66,6 +78,7 @@ final class ProjectsViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        // Sets constraints.
         NSLayoutConstraint.activate([
             projectsTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             projectsTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -129,6 +142,8 @@ final class ProjectsViewController: UIViewController {
         view.addSubview(projectsTableView)
     }
     
+    // MARK: Functions
+    /// Triggers action for right bar button item.
     @objc private func didTapRightBarButtonItem() {
         DispatchQueue.main.async { [weak self] in
             self?.searchBar.resignFirstResponder()
@@ -136,6 +151,7 @@ final class ProjectsViewController: UIViewController {
         }
     }
     
+    /// Creates a sort and order menu.
     private func createMenu() -> UIMenu {
         var orderActions = [UIAction]()
         
@@ -186,10 +202,15 @@ final class ProjectsViewController: UIViewController {
         return sortMenu
     }
     
+    /// Updates the sort and order menu.
     private func updateMenu() {
         menuButton.menu = createMenu()
     }
     
+    /// Inits fetch controller which load projects objects.
+    ///
+    /// - Parameters:
+    ///     - filterString: If is nil controller load all object. If has value controller load only object which have same or simirlary project title like the string value.
     private func initFetchController(filterString: String?) {
         let request = Project.fetchRequest() as NSFetchRequest<Project>
         
@@ -220,6 +241,7 @@ final class ProjectsViewController: UIViewController {
     }
 }
 
+// MARK: NSFetchedResultsControllerDelegate extension
 extension ProjectsViewController: NSFetchedResultsControllerDelegate {
     func controller(_ controller: NSFetchedResultsController<any NSFetchRequestResult>, didChangeContentWith snapshot: NSDiffableDataSourceSnapshotReference) {
         DispatchQueue.main.async { [weak self] in
@@ -228,6 +250,7 @@ extension ProjectsViewController: NSFetchedResultsControllerDelegate {
     }
 }
 
+// MARK: UITableViewDataSource and UITableViewDelegate extension
 extension ProjectsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if fetchController.fetchedObjects?.count == 0 {
@@ -291,6 +314,7 @@ extension ProjectsViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
+// MARK: UISearchBarDelegate extension
 extension ProjectsViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         self.searchText = searchText

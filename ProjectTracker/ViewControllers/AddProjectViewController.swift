@@ -5,14 +5,18 @@
 //  Created by Dominik Hel on 09.04.2024.
 //
 
+// MARK: Imports
 import UIKit
 import PhotosUI
 
+// MARK: AddProjectViewController class
 final class AddProjectViewController: UIViewController {
+    // MARK: Constants and variables
     weak var coordinator: MainCoordinator?
     
     private let databse = CoreDataManager.shared
     
+    // MARK: UI components
     private let contentScrollView: UIScrollView = {
         let contentScrollView = UIScrollView()
         contentScrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -32,9 +36,10 @@ final class AddProjectViewController: UIViewController {
         return alertController
     }()
     
+    // MARK: Life cycle functions
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
+        // Sets constraints.
         let h = contentFormView.heightAnchor.constraint(equalTo: contentScrollView.heightAnchor)
         h.isActive = true
         h.priority = UILayoutPriority(50)
@@ -70,7 +75,10 @@ final class AddProjectViewController: UIViewController {
         contentScrollView.addSubview(contentFormView)
     }
     
+    // MARK: Functions
+    /// Triggers action for right bar button item.
     @objc private func didTapCreateButton() {
+        // Triggers creation of new project if it is possible or show alert.
         if let newProject = contentFormView.createProject() {
             databse.addObject(newProject)
             coordinator?.popToProjectsViewController()
@@ -81,6 +89,7 @@ final class AddProjectViewController: UIViewController {
     }
 }
 
+// MARK: AddEditFormViewDelegate extension
 extension AddProjectViewController: AddEditFormViewDelegate {
     func didTapIconButton() {
         var config = PHPickerConfiguration()
@@ -93,6 +102,7 @@ extension AddProjectViewController: AddEditFormViewDelegate {
     }
 }
 
+// MARK: PHPickerViewControllerDelegate extension
 extension AddProjectViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)

@@ -5,14 +5,19 @@
 //  Created by Dominik Hel on 09.04.2024.
 //
 
+// MARK: Imports
 import UIKit
 import PhotosUI
+
+// MARK: EditProjectViewController class
 final class EditProjectViewController: UIViewController {
+    // MARK: Constants and variables
     weak var coordinator: MainCoordinator?
     
     private let project: Project
     private let databse = CoreDataManager.shared
     
+    // MARK: UI components
     private let contentScrollView: UIScrollView = {
         let contentScrollView = UIScrollView()
         contentScrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -32,6 +37,7 @@ final class EditProjectViewController: UIViewController {
         return alertController
     }()
     
+    // MARK: Inits
     init(project: Project) {
         self.project = project
         super.init(nibName: nil, bundle: nil)
@@ -41,9 +47,10 @@ final class EditProjectViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: Life cycle functions
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
+        // Sets constraints.
         let h = contentFormView.heightAnchor.constraint(equalTo: contentScrollView.heightAnchor)
         h.isActive = true
         h.priority = UILayoutPriority(50)
@@ -79,7 +86,10 @@ final class EditProjectViewController: UIViewController {
         contentScrollView.addSubview(contentFormView)
     }
     
+    // MARK: Functions
+    /// Triggers action for right bar button item.
     @objc private func didTapSaveButton() {
+        // Triggers creation of new project and replaces the old one with the new one if it is possible or show alert.
         if let newProject = contentFormView.createProject() {
             databse.updateObject(oldObject: project, newObject: newProject)
             coordinator?.popToProjectsViewController()
@@ -89,7 +99,7 @@ final class EditProjectViewController: UIViewController {
         }
     }
 }
-
+// MARK: AddEditFormViewDelegate extension
 extension EditProjectViewController: AddEditFormViewDelegate {
     func didTapIconButton() {
         var config = PHPickerConfiguration()
@@ -102,6 +112,7 @@ extension EditProjectViewController: AddEditFormViewDelegate {
     }
 }
 
+// MARK: PHPickerViewControllerDelegate extension
 extension EditProjectViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)

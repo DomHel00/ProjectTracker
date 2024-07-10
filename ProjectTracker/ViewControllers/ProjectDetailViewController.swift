@@ -5,12 +5,17 @@
 //  Created by Dominik Hel on 09.04.2024.
 //
 
+// MARK: Imports
 import UIKit
 
+// MARK: ProjectDetailViewController class
 final class ProjectDetailViewController: UIViewController {
+    // MARK: Constants and variables
     weak var coordinator: MainCoordinator?
+    
     private let project: Project
     
+    // MARK: UI components
     private let projectDetailView: ProjectDetailView
         
     private let contentScrollView: UIScrollView = {
@@ -20,6 +25,7 @@ final class ProjectDetailViewController: UIViewController {
         return contentScrollView
     }()
     
+    // MARK: Inits
     init(project: Project) {
         self.project = project
         self.projectDetailView = ProjectDetailView(project: project)
@@ -31,8 +37,10 @@ final class ProjectDetailViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: Life cycle functions
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        // Sets constraints.
         let h = projectDetailView.heightAnchor.constraint(equalTo: contentScrollView.heightAnchor)
         h.isActive = true
         h.priority = UILayoutPriority(50)
