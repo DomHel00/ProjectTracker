@@ -5,11 +5,15 @@
 //  Created by Dominik Hel on 26.04.2024.
 //
 
+// MARK: Imports
 import UIKit
 
+// MARK: ProjectTableViewCell class
 final class ProjectTableViewCell: UITableViewCell {
+    // MARK: Constants and variables
     static let identifier = "ProjectTableViewCell"
     
+    // MARK: UI components
     private let projectImageView: UIImageView = {
         let projectImageView = UIImageView()
         projectImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -50,6 +54,7 @@ final class ProjectTableViewCell: UITableViewCell {
         return projectDetailsLabel
     }()
     
+    // MARK: Inits
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.accessoryType = .disclosureIndicator
@@ -64,6 +69,7 @@ final class ProjectTableViewCell: UITableViewCell {
         fatalError()
     }
     
+    // MARK: Life cycle functions
     override func prepareForReuse() {
         super.prepareForReuse()
         projectImageView.image = nil
@@ -73,6 +79,7 @@ final class ProjectTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        // Sets constraints.
         NSLayoutConstraint.activate([
             projectImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             projectImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
@@ -88,6 +95,11 @@ final class ProjectTableViewCell: UITableViewCell {
         ])
     }
     
+    // MARK: Functions
+    /// Configures UI for selected project.
+    ///
+    /// - Parameters:
+    ///     - project: Project  which will be used for configure UI.
     public func configureUI(with project: Project) {
         self.accessibilityLabel = "Project: ".localized() + project.projectTitle + ", " + "Project priority: ".localized() + "\(project.projectPriority.title)," + "Project progress: ".localized() + "\(project.projectProgress.title)," + "Project creation date: ".localized() + "\(project.creationDate.formatted(date: .numeric, time: .omitted))"
         self.accessibilityHint = "To see the project details, double tap.".localized()

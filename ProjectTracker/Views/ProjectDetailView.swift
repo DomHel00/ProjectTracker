@@ -5,14 +5,18 @@
 //  Created by Dominik Hel on 27.04.2024.
 //
 
+// MARK: Imports
 import UIKit
 import WebKit
 
+// MARK: ProjectDetailView class
 final class ProjectDetailView: UIView {
+    // MARK: Constants and variables
     private let project: Project
     private var regularConstraints: [NSLayoutConstraint]?
     private var compactConstraints: [NSLayoutConstraint]?
     
+    // MARK: UI components
     private let projectTitleLabel: UILabel = {
         let projectTitleLabel = UILabel()
         projectTitleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -106,6 +110,7 @@ final class ProjectDetailView: UIView {
         return openURLButton
     }()
     
+    // MARK: Inits
     init(project: Project) {
         self.project = project
         super.init(frame: .zero)
@@ -128,6 +133,7 @@ final class ProjectDetailView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: Life cycle functions
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         updateCGColors()
@@ -135,6 +141,7 @@ final class ProjectDetailView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        // Sets constraints.
         switch (traitCollection.verticalSizeClass) {
         case .regular:
             NSLayoutConstraint.deactivate(compactConstraints!)
@@ -147,6 +154,11 @@ final class ProjectDetailView: UIView {
         }
     }
     
+    // MARK: Functions
+    /// Creates array of NSLayoutConstraint for given sizeClass parameter.
+    ///
+    /// - Parameters:
+    ///     - sizeClass: Size class for which will be NSLayoutConstraint created.
     private func setConstraint(for sizeClass: SizeClassEnum) -> [NSLayoutConstraint] {
         switch sizeClass {
         case .regular:
@@ -206,11 +218,16 @@ final class ProjectDetailView: UIView {
         }
     }
     
+    /// Updates CGColors.
     private func updateCGColors() {
         projectIconImageView.layer.borderColor = UIColor.label.cgColor
         openURLButton.layer.borderColor = UIColor.label.cgColor
     }
     
+    /// Configures UI for selected project.
+    ///
+    /// - Parameters:
+    ///     - project: Project for show details.
     private func configureUI(with project: Project) {
         projectTitleLabel.text = project.projectTitle
         if let projectDescription = project.projectDescription {
@@ -247,7 +264,9 @@ final class ProjectDetailView: UIView {
         }
     }
     
+    /// Triggers a openURLButton action.
     @objc private func openURL() {
+        // Opens the URL in Safari if it is possible.
         guard let projectURL = project.projectURL else {
             return
         }

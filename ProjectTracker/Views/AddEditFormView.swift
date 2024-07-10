@@ -5,17 +5,23 @@
 //  Created by Dominik Hel on 23.04.2024.
 //
 
+// MARK: Imports
 import UIKit
 
+// MARK: AddEditFormViewDelegate protocol
 protocol AddEditFormViewDelegate: AnyObject {
+    /// Tells delegate that icon button was tapped.
     func didTapIconButton()
 }
 
+// MARK: AddEditFormView class
 final class AddEditFormView: UIView {
+    // MARK: Constants and variables
     public weak var delegate: AddEditFormViewDelegate?
     private var regularConstraints: [NSLayoutConstraint]?
     private var compactConstraints: [NSLayoutConstraint]?
     
+    // MARK: UI components
     private let projectTitleLabel: UILabel = {
         let projectTitleLabel = UILabel()
         projectTitleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -142,6 +148,7 @@ final class AddEditFormView: UIView {
         return projectURLTextField
     }()
     
+    // MARK: Inits
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .secondarySystemBackground
@@ -172,6 +179,7 @@ final class AddEditFormView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: Life cycle functions
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         updateCGColors()
@@ -179,6 +187,7 @@ final class AddEditFormView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        // Sets constraints.
         switch (traitCollection.verticalSizeClass) {
         case .regular:
             NSLayoutConstraint.deactivate(compactConstraints!)
@@ -191,6 +200,8 @@ final class AddEditFormView: UIView {
         }
     }
     
+    // MARK: Functions
+    /// Updates UITextFields placeholders for VoiceOver.
     @objc private func updateTextFieldPlaceholdersForVoiceOver() {
         if UIAccessibility.isVoiceOverRunning {
             projectTitleTextField.placeholder = nil
@@ -202,6 +213,10 @@ final class AddEditFormView: UIView {
         }
     }
     
+    /// Creates array of NSLayoutConstraint for given sizeClass parameter.
+    ///
+    /// - Parameters:
+    ///     - sizeClass: Size class for which will be NSLayoutConstraint created.
     private func setConstraint(for sizeClass: SizeClassEnum) -> [NSLayoutConstraint] {
         switch sizeClass {
         case .regular:
@@ -325,6 +340,7 @@ final class AddEditFormView: UIView {
         }
     }
     
+    /// Updates CGColors.
     private func updateCGColors() {
         projectTitleTextField.layer.borderColor = UIColor.label.cgColor
         projectDescriptionTextView.layer.borderColor = UIColor.label.cgColor
@@ -333,14 +349,20 @@ final class AddEditFormView: UIView {
         projectURLTextField.layer.borderColor = UIColor.label.cgColor
     }
     
+    /// Triggers projectIconButton action-
     @objc private func showPhotoPicker() {
         delegate?.didTapIconButton()
     }
     
+    /// Updates the projectIconImageView image.
+    ///
+    /// - Parameters:
+    ///     - image: New UIImage.
     public func updateIcon(for image: UIImage) {
         self.projectIconImageView.image = image
     }
     
+    /// Configures UI for add mode.
     public func configureUIAddMode() {
         projectTitleLabel.text = "Set project title".localized()
         
@@ -373,6 +395,10 @@ final class AddEditFormView: UIView {
         updateTextFieldPlaceholdersForVoiceOver()
     }
     
+    /// Configures UI for edit mode.
+    ///
+    /// - Parameters:
+    ///     - project: Project that will be edited.
     public func configureUIEditMode(for project: Project) {
         projectTitleLabel.text = "Edit project title".localized()
         
@@ -419,6 +445,7 @@ final class AddEditFormView: UIView {
         updateTextFieldPlaceholdersForVoiceOver()
     }
     
+    /// Creates and return a new project if it is possible or return nil.
     public func createProject() -> ProjectModel? {
         guard let titleText = projectTitleTextField.text else {
             return nil
@@ -445,6 +472,7 @@ final class AddEditFormView: UIView {
         }
     }
     
+    /// Adds toolbar for keyboard.
     private func addToolbarToKeyboard() {
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
@@ -464,6 +492,7 @@ final class AddEditFormView: UIView {
         projectURLTextField.inputAccessoryView = toolbar
     }
     
+    /// Hides a software keyboard.
     @objc private func hideKeyboard() {
         if projectTitleTextField.isFirstResponder {
             projectTitleTextField.resignFirstResponder()
@@ -476,6 +505,7 @@ final class AddEditFormView: UIView {
         }
     }
     
+    /// Clears text in current text field.
     @objc private func clearTextField() {
         if projectTitleTextField.isFirstResponder {
             projectTitleTextField.text = nil
@@ -489,6 +519,7 @@ final class AddEditFormView: UIView {
     }
 }
 
+// MARK: UITextFieldDelegate extension
 extension AddEditFormView: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
         if projectTitleTextField.isFirstResponder {
@@ -502,6 +533,7 @@ extension AddEditFormView: UITextFieldDelegate {
     
 }
 
+// MARK: UITextViewDelegate extension
 extension AddEditFormView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         projectDescriptionTextView.accessibilityValue = textView.text

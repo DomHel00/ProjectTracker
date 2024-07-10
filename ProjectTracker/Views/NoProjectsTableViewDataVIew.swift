@@ -5,9 +5,12 @@
 //  Created by Dominik Hel on 21.04.2024.
 //
 
+// MARK: Imports
 import UIKit
 
+// MARK: NoProjectsTableViewDataVIew class
 final class NoProjectsTableViewDataVIew: UIView {
+    // MARK: UI components
     private let iconImageView: UIImageView = {
         let iconImageView = UIImageView()
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -27,6 +30,7 @@ final class NoProjectsTableViewDataVIew: UIView {
         return titleLabel
     }()
     
+    // MARK: Inits
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(iconImageView)
@@ -39,9 +43,10 @@ final class NoProjectsTableViewDataVIew: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: Life cycle functions
     override func layoutSubviews() {
         super.layoutSubviews()
-        
+        // Sets constraints.
         NSLayoutConstraint.activate([
             iconImageView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
             iconImageView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
