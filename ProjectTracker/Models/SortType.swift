@@ -5,14 +5,19 @@
 //  Created by Dominik Hel on 17.06.2024.
 //
 
+// MARK: Imports
 import Foundation
 
+// MARK: SortType enum
 enum SortType: Int, CaseIterable {
+    // MARK: Cases
     case byTitle = 0
     case byPriority = 1
     case byProgress = 2
     case byCreationDate = 3
     
+    // MARK: Computed properties
+    /// Returns the title for case.
     var title: String {
         switch self {
         case .byTitle:
@@ -26,6 +31,7 @@ enum SortType: Int, CaseIterable {
         }
     }
     
+    /// Returns the sort descriptor key for case.
     var sortDescriptorKey: String {
         switch self {
         case .byTitle:
