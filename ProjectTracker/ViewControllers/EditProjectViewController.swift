@@ -91,7 +91,7 @@ final class EditProjectViewController: UIViewController {
     @objc private func didTapSaveButton() {
         // Triggers creation of new project and replaces the old one with the new one if it is possible or show alert.
         if let newProject = contentFormView.createProject() {
-            databse.updateObject(oldObject: project, newObject: newProject)
+            databse.replaceObject(oldObject: project, newObject: newProject)
             coordinator?.popToProjectsViewController()
         }
         else {
